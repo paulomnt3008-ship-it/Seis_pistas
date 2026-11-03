@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Esqueleto compartido de cada pista (V1–V6)
+   Cabecera a la izquierda, escenario + explicación a la derecha.
+   Cada pista define su color con una clase .tone-*, que llena --c.
+   ========================================================================== */
+
+.track {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 32px;
+  border-top: 1px solid var(--line);
+  padding-block: 44px;
+  scroll-margin-top: 64px;
+}
+
+/* --- Cabecera --- */
+.track__head { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+.track__id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: var(--c);
+}
+.track__id::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: var(--c);
+  border-radius: 2px;
+}
+
+.track__title {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: .95;
+  text-transform: uppercase;
+}
+.track__title small {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--f-mono);
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--mute);
+  letter-spacing: .06em;
+  text-transform: none;
+}
+
+.track__lede { color: var(--mute); font-size: .95rem; max-width: 42ch; }
+.track__lede strong { color: var(--ink); font-weight: 500; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; }
+.chips li {
+  list-style: none;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+/* --- Cuerpo: escenario y explicación --- */
+.track__body { display: grid; gap: 16px; min-width: 0; }
+
+.stage {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  min-height: 300px;
+  overflow: hidden;
+}
+.stage__label {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 2;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--mute);
+  letter-spacing: .08em;
+  pointer-events: none;
+}
+
+.how { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; }
+.how__title {
+  margin-bottom: 8px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+.how__text { font-size: .95rem; max-width: 60ch; }
+
+/* --- Bloque de código --- */
+.code {
+  margin: 0;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font: 12.5px/1.6 var(--f-mono);
+  color: var(--ink);
+}
+.code .tok-com { color: var(--mute); }
+.code .tok-key { color: var(--c); }
+.code .tok-str { color: var(--code-string); }
+
+@media (max-width: 860px) {
+  .track { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .how { grid-template-columns: minmax(0, 1fr); }
+}

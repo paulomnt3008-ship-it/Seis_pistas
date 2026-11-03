@@ -1,0 +1,76 @@
+/* Regla fija con timecode y un rombo por pista */
+
+.ruler {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  padding-block: 10px;
+  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.ruler__tc {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--playhead);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ruler__tc small {
+  margin-right: 6px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--mute);
+}
+
+/* Marcas largas cada 10 %, cortas cada 2 % */
+.ruler__scale {
+  position: relative;
+  height: 28px;
+  min-width: 0;
+  background:
+    repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 10%) bottom / 100% 12px no-repeat,
+    repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 2%) bottom / 100% 5px no-repeat;
+}
+
+.ruler__playhead {
+  position: absolute;
+  top: -4px;
+  bottom: -11px;
+  left: 0;
+  width: 2px;
+  background: var(--playhead);
+  transform: translateX(-1px);
+}
+.ruler__playhead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5px;
+  border: 6px solid transparent;
+  border-top-color: var(--playhead);
+}
+
+.ruler__marker {
+  position: absolute;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  background: var(--c);
+  opacity: .85;
+  cursor: pointer;
+  transform: translateX(-6px) rotate(45deg);
+}
+.ruler__marker:hover { opacity: 1; transform: translateX(-6px) rotate(45deg) scale(1.25); }
+
+@media (max-width: 520px) {
+  .ruler { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,0 +1,58 @@
+/* V6 · Alpine.js: lista de tareas y panel plegable */
+
+.tasks {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 44px 20px 20px;
+}
+
+/* Oculta el marcado de Alpine hasta que se inicializa */
+[x-cloak] { display: none !important; }
+
+.tasks__form { display: flex; gap: 8px; }
+.tasks__input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  font: 14px var(--f-body);
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.tasks__list { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.tasks__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.tasks__remove {
+  background: none;
+  border: 0;
+  color: var(--mute);
+  cursor: pointer;
+  font: 12px var(--f-mono);
+}
+.tasks__remove:hover { color: var(--c); }
+
+.tasks__count { font-family: var(--f-mono); font-size: 12px; color: var(--mute); }
+.tasks__toggle { margin-top: 12px; }
+.tasks__panel {
+  margin-top: 12px;
+  padding: 14px;
+  font-size: 14px;
+  border: 1px solid var(--c);
+  border-radius: 4px;
+}
+
+@media (max-width: 860px) {
+  .tasks { grid-template-columns: minmax(0, 1fr); }
+}

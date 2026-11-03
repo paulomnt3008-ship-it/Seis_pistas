@@ -1,0 +1,68 @@
+<section class="track tone-alpine" id="pista-alpine" data-track data-title="Alpine.js">
+  <div class="track__head">
+    <span class="track__id">V6 · ESTADO</span>
+    <h2 class="track__title">Alpine.js<small>3.14 · x-data · x-show · x-transition</small></h2>
+    <p class="track__lede">Reactividad declarativa directo en el HTML. <strong>Las transiciones dependen del estado</strong>: cuando un dato cambia, el elemento entra o sale animado sin código imperativo.</p>
+    <ul class="chips"><li>x-transition</li><li>x-for</li><li>$nextTick</li></ul>
+  </div>
+
+  <div class="track__body">
+    <!-- El estado y los métodos viven en track-alpine.js (Alpine.data('tareas')) -->
+    <div class="stage tasks" x-data="tareas">
+      <span class="stage__label">AGREGA Y QUITA ELEMENTOS</span>
+
+      <div>
+        <form class="tasks__form" @submit.prevent="add()">
+          <label for="alpineInput" class="visually-hidden">Nueva tarea</label>
+          <input id="alpineInput" class="tasks__input" x-model="draft" placeholder="Escribe una tarea y presiona Enter" autocomplete="off">
+          <button class="btn" type="submit">Agregar</button>
+        </form>
+
+        <ul class="tasks__list">
+          <template x-for="item in items" :key="item.id">
+            <li class="tasks__item" x-show="item.shown"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 -translate-x-4"
+                x-transition:enter-end="opacity-100 translate-x-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0 translate-x-8">
+              <span x-text="item.text"></span>
+              <button class="tasks__remove" type="button" @click="remove(item.id)" :aria-label="'Quitar ' + item.text">quitar ×</button>
+            </li>
+          </template>
+        </ul>
+      </div>
+
+      <div>
+        <p class="tasks__count"><span x-text="items.length">3</span> elementos en el estado</p>
+        <button class="btn tasks__toggle" type="button" @click="open = !open" :aria-pressed="open.toString()" x-text="open ? 'Ocultar panel' : 'Mostrar panel'">Ocultar panel</button>
+        <div class="tasks__panel" x-show="open"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-end="opacity-0 scale-95">
+          Este panel solo existe mientras <code>open</code> sea verdadero. Alpine aplica las clases de entrada y salida, y Tailwind aporta las utilidades que animan.
+        </div>
+      </div>
+    </div>
+
+    <div class="how">
+      <div>
+        <h3 class="how__title">Cómo lo implementé</h3>
+        <p class="how__text">Alpine no anima la inserción de elementos en un <code>x-for</code>, así que cada tarea nace con <code>shown: false</code> y se activa en el siguiente tick. Eso dispara <code>x-transition</code>. Para quitar, primero oculto y después elimino del arreglo cuando termina la salida. El estado vive en su propio módulo JS, registrado con <code>Alpine.data()</code>.</p>
+      </div>
+<pre class="code"><span class="tok-com">// track-alpine.js</span>
+Alpine.<span class="tok-key">data</span>(<span class="tok-str">'tareas'</span>, () =&gt; ({
+  add() {
+    <span class="tok-key">const</span> item = { id, text, shown: <span class="tok-key">false</span> };
+    <span class="tok-key">this</span>.items.push(item);
+    <span class="tok-key">this</span>.$nextTick(() =&gt; item.shown = <span class="tok-key">true</span>);
+  }
+}));
+<span class="tok-com">&lt;!-- track-alpine.html --&gt;</span>
+&lt;div x-data=<span class="tok-str">"tareas"</span>&gt;</pre>
+    </div>
+  </div>
+</section>

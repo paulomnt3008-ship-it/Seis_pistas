@@ -1,0 +1,11 @@
+/* V2 · Tailwind: el escenario usa clases utilitarias; aquí solo va lo que
+   Tailwind no cubre (el relleno del escenario y el movimiento reducido). */
+
+.utilities { padding: 44px 20px 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .utilities .animate-spin,
+  .utilities .animate-ping,
+  .utilities .animate-bounce,
+  .utilities .animate-wobble { animation: none !important; }
+}

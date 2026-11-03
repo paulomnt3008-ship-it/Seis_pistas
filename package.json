@@ -1,0 +1,9 @@
+{
+  "name": "seis-pistas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portafolio de animación frontend organizado por componentes",
+  "scripts": {
+    "dev": "npx --yes serve@14 ."
+  }
+}

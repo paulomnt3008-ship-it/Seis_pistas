@@ -1,0 +1,31 @@
+/* V4 · Anime.js: rejilla de puntos con ondas y línea SVG */
+
+.ripple { padding: 44px 20px 20px; }
+
+.ripple__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 12), 26px);
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.ripple__dot {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.ripple__dot::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.ripple__line { display: block; width: 100%; height: 70px; margin-top: 14px; }
+.ripple__line path { fill: none; stroke: var(--c); stroke-width: 2; }

@@ -1,0 +1,32 @@
+<section class="track tone-three" id="pista-three" data-track data-title="Three.js">
+  <div class="track__head">
+    <span class="track__id">V5 · ESPACIO 3D</span>
+    <h2 class="track__title">Three.js<small>r128 · WebGL · geometría + partículas</small></h2>
+    <p class="track__lede">Para escenas en tres dimensiones sobre WebGL. Aquí <strong>combino dos librerías</strong>: Three.js dibuja la geometría y GSAP anima sus propiedades.</p>
+    <ul class="chips"><li>Scene · Camera · Renderer</li><li>requestAnimationFrame</li><li>lerp al cursor</li></ul>
+  </div>
+
+  <div class="track__body">
+    <div class="stage">
+      <span class="stage__label">MUEVE EL CURSOR · HAZ CLIC PARA PULSAR</span>
+      <canvas class="scene3d" data-ref="canvas" aria-label="Icosaedro en 3D que sigue el cursor"></canvas>
+    </div>
+
+    <div class="how">
+      <div>
+        <h3 class="how__title">Cómo lo implementé</h3>
+        <p class="how__text">Una escena con cámara en perspectiva, un icosaedro en malla de alambre y una nube de puntos sobre sus vértices. En cada fotograma la rotación se acerca a la posición del cursor con interpolación lineal, lo que da un seguimiento suave. Un <code>IntersectionObserver</code> detiene el render cuando la pista sale de pantalla para ahorrar batería.</p>
+      </div>
+<pre class="code"><span class="tok-key">function</span> frame() {
+  rot.x += (target.y - rot.x) * 0.06; <span class="tok-com">// lerp</span>
+  rot.y += (target.x - rot.y) * 0.06;
+  group.rotation.set(rot.x, rot.y + t, 0);
+  renderer.<span class="tok-key">render</span>(scene, camera);
+  <span class="tok-key">if</span> (visible) requestAnimationFrame(frame);
+}
+canvas.onclick = () =&gt; gsap.<span class="tok-key">fromTo</span>(
+  group.scale, { x:1.4, y:1.4, z:1.4 },
+  { x:1, y:1, z:1, ease: <span class="tok-str">'elastic.out'</span> });</pre>
+    </div>
+  </div>
+</section>

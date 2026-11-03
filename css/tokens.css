@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Tokens de diseño
+   Única fuente de verdad para color y tipografía. Los componentes, Tailwind
+   (con valores arbitrarios var(--…)) y Three.js (vía getComputedStyle) leen de aquí.
+   ========================================================================== */
+
+:root {
+  /* Superficies */
+  --ground: #13151d;
+  --panel: #1a1d28;
+  --panel-2: #222635;
+  --line: #2f3447;
+
+  /* Texto */
+  --ink: #ece7dd;
+  --mute: #959bb0;
+  --code-string: #e8c99a;
+
+  /* Acento: el cabezal de reproducción */
+  --playhead: #ff7b3f;
+
+  /* Un color por pista */
+  --t-css: #f0b64c;
+  --t-tw: #3cc5d4;
+  --t-gsap: #93cf6c;
+  --t-anime: #f07c9c;
+  --t-three: #a08ff2;
+  --t-alpine: #72b2ef;
+
+  /* Escena para Tai */
+  --love: #ff8fa3;
+  --love-wine: #3a1426;
+  --love-night: #1a0b13;
+
+  /* Tipografía */
+  --f-display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  color-scheme: dark;
+}
+
+/* Clases de tono: asignan --c, el color de la pista, a cualquier elemento */
+.tone-css    { --c: var(--t-css); }
+.tone-tw     { --c: var(--t-tw); }
+.tone-gsap   { --c: var(--t-gsap); }
+.tone-anime  { --c: var(--t-anime); }
+.tone-three  { --c: var(--t-three); }
+.tone-alpine { --c: var(--t-alpine); }

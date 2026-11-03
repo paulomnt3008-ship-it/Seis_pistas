@@ -1,0 +1,40 @@
+/* Cierre: criterio de elección y versiones de las librerías */
+
+.closing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  padding-block: 40px 0;
+  border-top: 1px solid var(--line);
+}
+
+.closing__title {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: .95;
+  text-transform: uppercase;
+}
+.closing__text { margin-top: 14px; max-width: 56ch; color: var(--mute); }
+
+.closing__libs {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: 12px;
+}
+.closing__libs td { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.closing__libs td:last-child { text-align: right; color: var(--mute); }
+.closing__libs td:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  background: var(--c);
+  border-radius: 1px;
+}
+
+@media (max-width: 860px) {
+  .closing { grid-template-columns: minmax(0, 1fr); }
+}

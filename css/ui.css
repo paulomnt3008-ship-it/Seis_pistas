@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Piezas de interfaz reutilizables: botones, grupos de controles, utilidades
+   ========================================================================== */
+
+.btn {
+  font: 500 12px var(--f-mono);
+  letter-spacing: .06em;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.btn:hover { border-color: var(--c, var(--playhead)); }
+.btn[aria-pressed="true"] {
+  background: var(--c, var(--playhead));
+  border-color: var(--c, var(--playhead));
+  color: var(--ground);
+}
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.readout {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Mensaje que muestra el cargador si un componente no se pudo traer */
+.load-error {
+  margin-block: 32px;
+  padding: 20px;
+  border: 1px solid var(--playhead);
+  border-radius: 6px;
+  background: var(--panel);
+  display: grid;
+  gap: 8px;
+  max-width: 70ch;
+}
+.load-error code { font-family: var(--f-mono); color: var(--playhead); }

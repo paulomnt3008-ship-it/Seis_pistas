@@ -1,0 +1,85 @@
+/* Escena post-créditos: botón "Solo para Tai" y la transición de iris */
+
+.postcredits {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin-top: 48px;
+  padding-block: 48px 8px;
+  border-top: 1px dashed var(--line);
+  text-align: center;
+}
+
+.postcredits__label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.postcredits__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 26px 14px 20px;
+  border: 1px solid color-mix(in srgb, var(--love) 55%, transparent);
+  border-radius: 999px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--love) 20%, var(--panel)), var(--panel));
+  color: var(--ink);
+  font: 500 15px var(--f-body);
+  letter-spacing: .02em;
+  text-decoration: none;
+  transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), box-shadow .35s, border-color .35s;
+}
+.postcredits__btn:hover,
+.postcredits__btn:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--love);
+  box-shadow: 0 12px 40px -12px var(--love);
+}
+
+.postcredits__heart {
+  width: 18px;
+  height: 16px;
+  fill: var(--love);
+  animation: postcredits-beat 1.6s ease-in-out infinite;
+}
+
+@keyframes postcredits-beat {
+  0%, 40%, 100% { transform: scale(1); }
+  14%           { transform: scale(1.22); }
+  28%           { transform: scale(1.08); }
+}
+
+/* Telón circular que cubre la página antes de cambiar a tai.html */
+.love-iris {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(120% 90% at 50% 40%, var(--love-wine), var(--love-night) 70%);
+  pointer-events: none;
+}
+.love-iris svg {
+  width: 84px;
+  fill: none;
+  stroke: var(--love);
+  stroke-width: 2.5;
+  opacity: 0;
+}
+
+/* Corazones que salen del botón */
+.love-spark {
+  position: fixed;
+  z-index: 101;
+  width: 14px;
+  height: 13px;
+  fill: var(--love);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .postcredits__heart { animation: none; }
+}

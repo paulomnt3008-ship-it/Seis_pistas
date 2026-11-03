@@ -1,0 +1,48 @@
+<section class="track tone-css" id="pista-css" data-track data-title="CSS + Web Animations">
+  <div class="track__head">
+    <span class="track__id">V1 · NATIVO</span>
+    <h2 class="track__title">CSS + Web Animations<small>@keyframes · transition · element.animate()</small></h2>
+    <p class="track__lede">La base de todo. Antes de cargar una librería me pregunto si el navegador ya lo resuelve. <strong>Para microinteracciones y loops, casi siempre sí.</strong></p>
+    <ul class="chips"><li>cubic-bezier</li><li>steps()</li><li>transform-origin</li><li>WAAPI</li></ul>
+  </div>
+
+  <div class="track__body">
+    <div class="stage easing">
+      <span class="stage__label">CURVAS DE ACELERACIÓN · ELIGE UNA</span>
+      <div>
+        <div class="controls" data-ref="buttons" role="group" aria-label="Curvas de aceleración"></div>
+        <div class="easing__lane" data-ref="lane"><div class="easing__ball" data-ref="ball"></div></div>
+        <p class="easing__code" data-ref="code">transition-timing-function: <b>linear</b></p>
+        <div class="easing__floor" aria-label="Pelota con squash and stretch">
+          <div class="easing__shadow"></div>
+          <div class="easing__squash"></div>
+        </div>
+      </div>
+      <svg class="easing__curve" viewBox="-8 -8 116 256" role="img" aria-label="Gráfica de la curva seleccionada">
+        <line class="easing__guide" x1="0" y1="70" x2="100" y2="70"/>
+        <line class="easing__guide" x1="0" y1="170" x2="100" y2="170"/>
+        <text x="102" y="73">1</text>
+        <text x="102" y="173">0</text>
+        <path class="easing__path" data-ref="curvePath" d=""/>
+        <circle class="easing__dot" data-ref="curveDot" r="4" cx="0" cy="170"/>
+      </svg>
+    </div>
+
+    <div class="how">
+      <div>
+        <h3 class="how__title">Cómo lo implementé</h3>
+        <p class="how__text">La pelota de arriba se mueve con <code>element.animate()</code>, la versión en JavaScript de las animaciones CSS. Cambiar la curva solo cambia el parámetro <code>easing</code>. La pelota que rebota es CSS puro: un <code>@keyframes</code> que aplasta y estira desde la base, el principio clásico de squash and stretch.</p>
+      </div>
+<pre class="code"><span class="tok-com">/* rebote: aplastar al tocar el suelo */</span>
+<span class="tok-key">@keyframes</span> bounce {
+  0%, 100% { transform: scale(1.35, .65); }
+  50%      { transform: translateY(-74px); }
+}
+<span class="tok-com">// WAAPI: misma animación, controlada desde JS</span>
+ball.<span class="tok-key">animate</span>(
+  [{ transform: <span class="tok-str">'translateX(0)'</span> },
+   { transform: <span class="tok-str">`translateX(${d}px)`</span> }],
+  { duration: 1200, easing, fill: <span class="tok-str">'forwards'</span> });</pre>
+    </div>
+  </div>
+</section>

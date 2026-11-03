@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Solo para Tai</title>
+
+  <!-- Oculta la escena hasta que arranque la animación (con respaldo por si algo falla) -->
+  <script>
+    document.documentElement.classList.add('pre');
+    setTimeout(function () { document.documentElement.classList.remove('pre'); }, 2500);
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="pages/tai/tai.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script type="module" src="pages/tai/tai.js"></script>
+</head>
+<body class="tai">
+  <canvas class="tai__sky" data-ref="sky" aria-hidden="true"></canvas>
+
+  <a class="tai__back" href="./" data-ref="back">← Volver al portafolio</a>
+
+  <main class="tai__scene">
+    <p class="tai__label">Toma final · Solo para Tai</p>
+
+    <svg class="tai__heart" data-ref="heart" viewBox="-4 -4 108 98" aria-hidden="true">
+      <path class="tai__heart-line" data-ref="heartLine" d="M50 86 C20 64 2 46 2 28 C2 12 14 2 28 2 C38 2 46 8 50 16 C54 8 62 2 72 2 C86 2 98 12 98 28 C98 46 80 64 50 86 Z"/>
+    </svg>
+
+    <h1 class="tai__message" data-ref="message">
+      <span class="tai__line">Siempre estaré a tu lado,</span>
+      <span class="tai__line">en las buenas y en las malas.</span>
+      <span class="tai__love">Yo te amo.</span>
+    </h1>
+
+    <p class="tai__hint">Toca la pantalla</p>
+  </main>
+</body>
+</html>
