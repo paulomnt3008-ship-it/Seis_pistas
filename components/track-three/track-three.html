@@ -1,23 +1,27 @@
-<section class="track tone-three" id="pista-three" data-track data-title="Three.js">
-  <div class="track__head">
-    <span class="track__id">V5 · ESPACIO 3D</span>
-    <h2 class="track__title">Three.js<small>r128 · WebGL · geometría + partículas</small></h2>
-    <p class="track__lede">Para escenas en tres dimensiones sobre WebGL. Aquí <strong>combino dos librerías</strong>: Three.js dibuja la geometría y GSAP anima sus propiedades.</p>
-    <ul class="chips"><li>Scene · Camera · Renderer</li><li>requestAnimationFrame</li><li>lerp al cursor</li></ul>
-  </div>
+<section class="track tone-three" id="pista-three" data-track data-title="Three.js" aria-labelledby="pista-three-title">
+  <header class="track__slate frame">
+    <span class="track__fact">Espacio en 3D</span>
+    <h2 class="track__title display" id="pista-three-title">Three.js</h2>
+    <span class="track__fact track__fact--end">r128 · WebGL + GSAP</span>
+  </header>
 
-  <div class="track__body">
-    <div class="stage">
-      <span class="stage__label">MUEVE EL CURSOR · HAZ CLIC PARA PULSAR</span>
+  <div class="track__body grid12 frame">
+    <div class="track__text" data-reveal-group>
+      <p class="track__lede" data-reveal>Para escenas en tres dimensiones sobre WebGL. Aquí combino dos librerías: Three.js dibuja y GSAP anima.</p>
+      <h3 class="track__how" data-reveal>Cómo lo implementé</h3>
+      <p data-reveal>Una cámara en perspectiva, un icosaedro en malla de alambre y una nube de puntos sobre sus vértices. En cada fotograma la rotación se acerca a la posición del cursor con interpolación lineal, lo que da un seguimiento suave.</p>
+      <p data-reveal>Un <code>IntersectionObserver</code> detiene el render cuando la pista sale de pantalla para ahorrar batería.</p>
+      <ul class="track__tags" data-reveal>
+        <li><code>Scene</code></li><li><code>PerspectiveCamera</code></li><li><code>lerp</code></li><li><code>requestAnimationFrame</code></li>
+      </ul>
+    </div>
+
+    <div class="track__stage stage">
+      <span class="stage__label">Mueve el cursor y haz clic para pulsar</span>
       <canvas class="scene3d" data-ref="canvas" aria-label="Icosaedro en 3D que sigue el cursor"></canvas>
     </div>
 
-    <div class="how">
-      <div>
-        <h3 class="how__title">Cómo lo implementé</h3>
-        <p class="how__text">Una escena con cámara en perspectiva, un icosaedro en malla de alambre y una nube de puntos sobre sus vértices. En cada fotograma la rotación se acerca a la posición del cursor con interpolación lineal, lo que da un seguimiento suave. Un <code>IntersectionObserver</code> detiene el render cuando la pista sale de pantalla para ahorrar batería.</p>
-      </div>
-<pre class="code"><span class="tok-key">function</span> frame() {
+<pre class="code track__code"><span class="tok-key">function</span> frame() {
   rot.x += (target.y - rot.x) * 0.06; <span class="tok-com">// lerp</span>
   rot.y += (target.x - rot.y) * 0.06;
   group.rotation.set(rot.x, rot.y + t, 0);
@@ -27,6 +31,5 @@
 canvas.onclick = () =&gt; gsap.<span class="tok-key">fromTo</span>(
   group.scale, { x:1.4, y:1.4, z:1.4 },
   { x:1, y:1, z:1, ease: <span class="tok-str">'elastic.out'</span> });</pre>
-    </div>
   </div>
 </section>

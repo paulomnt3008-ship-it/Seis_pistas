@@ -1,35 +1,20 @@
-<section class="hero">
-  <p class="hero__eyebrow">Portafolio de animación frontend · Desarrollador full-stack · 2026</p>
-
-  <h1 class="hero__title" data-ref="title" aria-label="Seis pistas de movimiento">
-    Seis pistas<br><em>de movimiento</em>
-  </h1>
-
-  <div class="hero__grid">
-    <div>
-      <p class="hero__lead">Esta página está armada como la línea de tiempo de un editor de video. Cada pista es una herramienta de animación que domino, con una demo viva, el código que la mueve y la razón por la que la elegí.</p>
-      <p class="hero__lead hero__lead--quiet">Desplázate y mira el timecode de arriba: avanza a 24 fotogramas por segundo según tu scroll. Los rombos de la regla te llevan directo a cada pista.</p>
-      <div class="hero__specs">
-        <span><b>24</b> fps</span>
-        <span><b>6</b> pistas</span>
-        <span><b>9</b> componentes</span>
-        <span><b>0</b> pasos de build</span>
-      </div>
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="hero__stage" data-ref="stage">
+    <!-- La ventana: la escena queda fija a pantalla completa, solo crece la abertura -->
+    <div class="hero__window" data-ref="window">
+      <div class="hero__scene" data-ref="scene"
+           role="img" aria-label="Seis carriles de colores, uno por herramienta, con tiras de cuadros animados que corren mientras un cabezal de reproducción los recorre"></div>
+      <p class="hero__caption" data-ref="caption">Seis pistas, seis formas de mover las cosas. Hecho solo con CSS</p>
     </div>
 
-    <div class="dope" aria-hidden="true">
-      <div class="dope__head">
-        <span>DOPE SHEET · SECUENCIA 01</span>
-        <span data-ref="frame">F 000</span>
-      </div>
-      <div class="dope__body">
-        <div class="dope__playhead" data-ref="playhead"></div>
-        <div class="dope__row tone-css">    <span class="dope__label">CSS</span>      <div class="dope__lane" data-keys="8,30,62,90"></div></div>
-        <div class="dope__row tone-tw">     <span class="dope__label">Tailwind</span> <div class="dope__lane" data-keys="16,44,76"></div></div>
-        <div class="dope__row tone-gsap">   <span class="dope__label">GSAP</span>     <div class="dope__lane" data-keys="6,22,38,54,70,86"></div></div>
-        <div class="dope__row tone-anime">  <span class="dope__label">Anime.js</span> <div class="dope__lane" data-keys="12,48,52,56,84"></div></div>
-        <div class="dope__row tone-three">  <span class="dope__label">Three.js</span> <div class="dope__lane" data-keys="4,96"></div></div>
-        <div class="dope__row tone-alpine"> <span class="dope__label">Alpine</span>   <div class="dope__lane" data-keys="26,34,66,74"></div></div>
+    <div class="hero__copy frame" data-ref="copy">
+      <h1 class="hero__title display" id="hero-title">Seis<br>pistas</h1>
+      <div class="hero__side">
+        <p class="hero__lead">Un portafolio de animación frontend: seis herramientas, seis demos vivas y el código que las mueve.</p>
+        <a class="btn btn--primary" href="#pistas">
+          Ver las seis pistas
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 2v12M3 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </a>
       </div>
     </div>
   </div>

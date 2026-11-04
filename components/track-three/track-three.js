@@ -3,22 +3,23 @@ import { prefersReducedMotion, cssVar } from '../../js/core/motion.js';
 const FOLLOW = .06;          // fracción de la distancia al cursor que se avanza por fotograma
 const RING_PARTICLES = 600;
 
-function buildScene() {
+function buildScene(root) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, .1, 100);
   camera.position.z = 5.2;
 
-  const main = new THREE.Color(cssVar('--t-three'));
-  const accent = new THREE.Color(cssVar('--playhead'));
+  // Figura en la tinta de la pista; puntos en el acento de la página
+  const main = new THREE.Color(cssVar('--c', root) || '#1c1c1c');
+  const accent = new THREE.Color('#3f5a3e');
 
   // Icosaedro: malla de alambre + puntos en los vértices + núcleo
   const group = new THREE.Group();
   const geometry = new THREE.IcosahedronGeometry(1.5, 2);
   group.add(new THREE.LineSegments(
     new THREE.WireframeGeometry(geometry),
-    new THREE.LineBasicMaterial({ color: main, transparent: true, opacity: .55 })
+    new THREE.LineBasicMaterial({ color: main, transparent: true, opacity: .7 })
   ));
-  group.add(new THREE.Points(geometry, new THREE.PointsMaterial({ color: accent, size: .06 })));
+  group.add(new THREE.Points(geometry, new THREE.PointsMaterial({ color: accent, size: .09 })));
   const core = new THREE.Mesh(
     new THREE.IcosahedronGeometry(.7, 0),
     new THREE.MeshBasicMaterial({ color: main, wireframe: true })
@@ -52,7 +53,7 @@ export function init(root) {
   const canvas = root.querySelector('[data-ref="canvas"]');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(2, devicePixelRatio));
-  const { scene, camera, group, core, ring } = buildScene();
+  const { scene, camera, group, core, ring } = buildScene(root);
 
   const target = { x: 0, y: 0 };
   const rotation = { x: 0, y: 0 };

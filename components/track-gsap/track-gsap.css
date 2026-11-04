@@ -1,37 +1,40 @@
-/* V3 · GSAP: barras + palabra controladas por una timeline */
+/* Pista GSAP: barras + palabra controladas por una timeline */
 
-.sequence { display: grid; gap: 20px; padding: 44px 20px 20px; }
+.sequence {
+  display: grid;
+  align-content: end;
+  gap: 24px;
+  padding: 60px 20px 0;
+}
 
 .sequence__bars {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(6px, 2vw, 14px);
-  height: 150px;
+  gap: clamp(6px, 1.4vw, 16px);
+  height: 170px;
 }
 .sequence__bar {
-  width: clamp(16px, 4vw, 30px);
+  width: clamp(18px, 3.4vw, 40px);
   height: 100%;
   background: var(--c);
-  border-radius: 3px 3px 0 0;
   transform-origin: 50% 100%;
 }
 
 .sequence__word {
   overflow: hidden;
   text-align: center;
-  font-family: var(--f-display);
-  font-weight: 900;
-  font-size: clamp(2.4rem, 8vw, 4.4rem);
-  line-height: 1;
-  letter-spacing: .04em;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
 }
 .sequence__letter { display: inline-block; }
 
 .sequence__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.sequence__scrub { flex: 1; min-width: 160px; accent-color: var(--c); }
+.sequence__label { font-size: var(--step-small); font-weight: 500; }
+.sequence__scrub { flex: 1; min-width: 140px; accent-color: #1c1c1c; }
+.sequence__frame { font-weight: 500; }
 
-.sequence__progress { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.sequence__progress { height: 8px; margin-inline: -20px; background: var(--stage-2); overflow: hidden; }
 .sequence__progress div {
   height: 100%;
   background: var(--c);

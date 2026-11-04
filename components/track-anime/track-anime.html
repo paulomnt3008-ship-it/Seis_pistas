@@ -1,26 +1,30 @@
-<section class="track tone-anime" id="pista-anime" data-track data-title="Anime.js">
-  <div class="track__head">
-    <span class="track__id">V4 · PATRONES</span>
-    <h2 class="track__title">Anime.js<small>3.2 · stagger en rejilla · trazado SVG</small></h2>
-    <p class="track__lede">Ligera y expresiva. La uso cuando el efecto depende de <strong>la posición de muchos elementos</strong>, como ondas en una rejilla, o para dibujar trazos SVG.</p>
-    <ul class="chips"><li>anime.stagger({ grid })</li><li>setDashoffset</li><li>keyframes por propiedad</li></ul>
-  </div>
+<section class="track tone-anime" id="pista-anime" data-track data-title="Anime.js" aria-labelledby="pista-anime-title">
+  <header class="track__slate frame">
+    <span class="track__fact">Patrones y trazos</span>
+    <h2 class="track__title display" id="pista-anime-title">Anime.js</h2>
+    <span class="track__fact track__fact--end">3.2.2 · stagger en rejilla</span>
+  </header>
 
-  <div class="track__body">
-    <div class="stage ripple">
-      <span class="stage__label">TOCA CUALQUIER PUNTO</span>
+  <div class="track__body grid12 frame">
+    <div class="track__text" data-reveal-group>
+      <p class="track__lede" data-reveal>Ligera y expresiva. La uso cuando el efecto depende de la posición de muchos elementos, o para dibujar trazos SVG.</p>
+      <h3 class="track__how" data-reveal>Cómo lo implementé</h3>
+      <p data-reveal>La rejilla se genera según el ancho disponible. Al tocar un punto, <code>anime.stagger</code> calcula el retraso de cada uno según su distancia en la rejilla al punto tocado, y eso produce la onda.</p>
+      <p data-reveal>La línea de abajo se dibuja animando <code>strokeDashoffset</code> después de cada onda.</p>
+      <ul class="track__tags" data-reveal>
+        <li><code>anime.stagger({ grid })</code></li><li><code>setDashoffset</code></li><li><code>keyframes</code></li>
+      </ul>
+    </div>
+
+    <div class="track__stage stage ripple">
+      <span class="stage__label">Toca cualquier punto</span>
       <div class="ripple__grid" data-ref="grid"></div>
       <svg class="ripple__line" viewBox="0 0 600 70" preserveAspectRatio="none" aria-hidden="true">
         <path data-ref="path" d="M0 35 C 60 0, 90 70, 150 35 S 240 0, 300 35 S 390 70, 450 35 S 540 0, 600 35"/>
       </svg>
     </div>
 
-    <div class="how">
-      <div>
-        <h3 class="how__title">Cómo lo implementé</h3>
-        <p class="how__text">La rejilla se genera según el ancho disponible. Al tocar un punto, <code>anime.stagger</code> calcula el retraso de cada punto según su distancia en la rejilla al punto tocado, y eso produce la onda. La línea de abajo se dibuja animando <code>strokeDashoffset</code> después de cada onda.</p>
-      </div>
-<pre class="code">anime({
+<pre class="code track__code">anime({
   targets: dots,
   scale: [{ value: .2 }, { value: 1 }],
   translateY: [{ value: -12 }, { value: 0 }],
@@ -29,6 +33,5 @@
     from: indiceTocado
   })
 });</pre>
-    </div>
   </div>
 </section>

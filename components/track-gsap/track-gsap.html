@@ -1,32 +1,36 @@
-<section class="track tone-gsap" id="pista-gsap" data-track data-title="GSAP">
-  <div class="track__head">
-    <span class="track__id">V3 · SECUENCIAS</span>
-    <h2 class="track__title">GSAP<small>3.12 · timeline · stagger · ScrollTrigger</small></h2>
-    <p class="track__lede">Cuando hay varios elementos que deben moverse en orden, con traslapes y control total, uso GSAP. <strong>Su timeline se comporta como la de un editor:</strong> se reproduce, se invierte y se puede arrastrar.</p>
-    <ul class="chips"><li>gsap.timeline()</li><li>stagger</li><li>scrub</li><li>eases elásticas</li></ul>
-  </div>
+<section class="track tone-gsap" id="pista-gsap" data-track data-title="GSAP" aria-labelledby="pista-gsap-title">
+  <header class="track__slate frame">
+    <span class="track__fact">Secuencias con control total</span>
+    <h2 class="track__title display" id="pista-gsap-title">GSAP</h2>
+    <span class="track__fact track__fact--end">3.12.5 · timeline · ScrollTrigger</span>
+  </header>
 
-  <div class="track__body">
-    <div class="stage sequence">
-      <span class="stage__label">TIMELINE CONTROLABLE</span>
+  <div class="track__body grid12 frame">
+    <div class="track__text" data-reveal-group>
+      <p class="track__lede" data-reveal>Cuando muchos elementos deben moverse en orden, con traslapes, uso GSAP. Su timeline se porta como la de un editor de video.</p>
+      <h3 class="track__how" data-reveal>Cómo lo implementé</h3>
+      <p data-reveal>Una sola <code>gsap.timeline()</code> encadena tres tramos: las barras crecen en cascada, la palabra entra letra por letra al mismo tiempo (<code>'&lt;'</code>) y todo se asienta con una ease elástica.</p>
+      <p data-reveal>El deslizador escribe <code>tl.progress()</code> y el contador traduce ese progreso a fotogramas. La barra inferior avanza con tu scroll gracias a ScrollTrigger en modo <code>scrub</code>.</p>
+      <ul class="track__tags" data-reveal>
+        <li><code>timeline()</code></li><li><code>stagger</code></li><li><code>scrub</code></li><li><code>elastic.out</code></li>
+      </ul>
+    </div>
+
+    <div class="track__stage stage sequence">
+      <span class="stage__label">Timeline controlable</span>
       <div class="sequence__bars" data-ref="bars"></div>
-      <div class="sequence__word" data-ref="word" aria-label="Keyframe">KEYFRAME</div>
+      <div class="sequence__word display" data-ref="word" aria-label="Keyframe">Keyframe</div>
       <div class="sequence__controls">
         <button class="btn" type="button" data-ref="play">Reproducir</button>
         <button class="btn" type="button" data-ref="reverse">Invertir</button>
-        <label class="readout" for="gsapScrub">Arrastra:</label>
+        <label class="sequence__label" for="gsapScrub">Arrastra</label>
         <input class="sequence__scrub" type="range" id="gsapScrub" data-ref="scrub" min="0" max="1000" value="1000">
-        <span class="readout" data-ref="frame">F 000 / 000</span>
+        <span class="readout sequence__frame" data-ref="frame">F 000 / 000</span>
       </div>
       <div class="sequence__progress" aria-hidden="true"><div data-ref="scrollBar"></div></div>
     </div>
 
-    <div class="how">
-      <div>
-        <h3 class="how__title">Cómo lo implementé</h3>
-        <p class="how__text">Una sola <code>gsap.timeline()</code> encadena tres tramos: las barras crecen en cascada, la palabra entra letra por letra al mismo tiempo (<code>'&lt;'</code>) y todo se asienta con una ease elástica. El slider escribe <code>tl.progress()</code> y el contador traduce ese progreso a fotogramas. La línea verde inferior avanza con tu scroll gracias a ScrollTrigger en modo <code>scrub</code>.</p>
-      </div>
-<pre class="code"><span class="tok-key">const</span> tl = gsap.<span class="tok-key">timeline</span>({ paused: <span class="tok-key">true</span> });
+<pre class="code track__code"><span class="tok-key">const</span> tl = gsap.<span class="tok-key">timeline</span>({ paused: <span class="tok-key">true</span> });
 tl.<span class="tok-key">from</span>(bars, { scaleY: .05, stagger: .06 })
   .<span class="tok-key">from</span>(letters, { yPercent: 120,
          stagger: .05 }, <span class="tok-str">'&lt;'</span>)
@@ -35,6 +39,5 @@ tl.<span class="tok-key">from</span>(bars, { scaleY: .05, stagger: .06 })
 
 scrub.oninput = e =&gt;
   tl.<span class="tok-key">progress</span>(e.target.value / 1000);</pre>
-    </div>
   </div>
 </section>

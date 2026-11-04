@@ -1,7 +1,7 @@
-/* V2 · Tailwind: el escenario usa clases utilitarias; aquí solo va lo que
+/* Pista Tailwind: el escenario usa clases utilitarias; aquí solo va lo que
    Tailwind no cubre (el relleno del escenario y el movimiento reducido). */
 
-.utilities { padding: 44px 20px 24px; }
+.utilities { padding: 60px 20px 28px; }
 
 @media (prefers-reduced-motion: reduce) {
   .utilities .animate-spin,

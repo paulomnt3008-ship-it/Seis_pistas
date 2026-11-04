@@ -1,53 +1,57 @@
-<section class="track tone-tw" id="pista-tailwind" data-track data-title="Tailwind CSS">
-  <div class="track__head">
-    <span class="track__id">V2 · UTILIDADES</span>
-    <h2 class="track__title">Tailwind CSS<small>v3.4 · transition-* · animate-* · group-hover</small></h2>
-    <p class="track__lede">Tailwind describe el movimiento en el mismo lugar que el diseño. <strong>Ideal para estados de hover, foco y carga</strong> dentro de componentes, sin escribir CSS aparte.</p>
-    <ul class="chips"><li>group-hover</li><li>duration-500</li><li>ease-[…]</li><li>keyframes en config</li></ul>
-  </div>
+<section class="track tone-tw" id="pista-tailwind" data-track data-title="Tailwind CSS" aria-labelledby="pista-tw-title">
+  <header class="track__slate frame">
+    <span class="track__fact">Utilidades, sin JS</span>
+    <h2 class="track__title display" id="pista-tw-title">Tailwind CSS</h2>
+    <span class="track__fact track__fact--end">v3.4.17 · group-hover</span>
+  </header>
 
-  <div class="track__body">
+  <div class="track__body grid12 frame">
+    <div class="track__text" data-reveal-group>
+      <p class="track__lede" data-reveal>Tailwind describe el movimiento en el mismo lugar que el diseño. Ideal para hover, foco y carga dentro de un componente.</p>
+      <h3 class="track__how" data-reveal>Cómo lo implementé</h3>
+      <p data-reveal>Cada tarjeta es un <code>group</code>; sus hijos reaccionan con <code>group-hover:</code> y <code>group-focus-visible:</code>, así el teclado ve lo mismo que el mouse. La curva con rebote es un valor arbitrario y <code>animate-wobble</code> es un keyframe que registré en <code>tailwind.config</code>.</p>
+      <p data-reveal>Este escenario no tiene una sola línea de CSS propio: todo son clases.</p>
+      <ul class="track__tags" data-reveal>
+        <li><code>group-hover</code></li><li><code>duration-500</code></li><li><code>ease-[…]</code></li><li><code>animate-*</code></li>
+      </ul>
+    </div>
+
     <!-- Este escenario se estiliza solo con clases de Tailwind -->
-    <div class="stage utilities">
-      <span class="stage__label">PASA EL CURSOR O ENFOCA CON TAB</span>
+    <div class="track__stage stage utilities">
+      <span class="stage__label">Pasa el cursor o enfoca con Tab</span>
 
-      <div class="grid gap-4 mt-2 grid-cols-[repeat(auto-fit,minmax(150px,1fr))]">
-        <button type="button" class="group relative h-40 p-4 rounded-md border border-solid border-[var(--line)] bg-[var(--panel-2)] text-left text-[var(--ink)] cursor-pointer overflow-hidden transition-colors duration-300 hover:border-[var(--t-tw)] focus-visible:border-[var(--t-tw)]">
-          <span class="block font-mono text-[11px] tracking-widest text-[var(--mute)]">ELEVAR</span>
-          <span class="absolute left-4 bottom-4 h-12 w-12 rounded bg-[var(--t-tw)] transition-transform duration-500 ease-[cubic-bezier(.34,1.56,.64,1)] group-hover:-translate-y-10 group-hover:rotate-12 group-focus-visible:-translate-y-10 group-focus-visible:rotate-12"></span>
+      <div class="grid gap-3 grid-cols-[repeat(auto-fit,minmax(170px,1fr))]">
+        <button type="button" class="group relative h-56 p-5 border-0 bg-[var(--stage-2)] text-left text-[var(--ink)] cursor-pointer overflow-hidden transition-colors duration-300 hover:bg-[#1c1c1c] hover:text-[var(--field)] focus-visible:bg-[#1c1c1c] focus-visible:text-[var(--field)]">
+          <span class="block text-[15px] font-medium">Elevar</span>
+          <span class="absolute left-5 bottom-5 h-14 w-14 bg-current transition-transform duration-500 ease-[cubic-bezier(.34,1.56,.64,1)] group-hover:-translate-y-16 group-hover:rotate-12 group-focus-visible:-translate-y-16 group-focus-visible:rotate-12"></span>
         </button>
 
-        <button type="button" class="group relative h-40 p-4 rounded-md border border-solid border-[var(--line)] bg-[var(--panel-2)] text-left cursor-pointer overflow-hidden">
-          <span class="block font-mono text-[11px] tracking-widest text-[var(--mute)]">REVELAR</span>
-          <span class="absolute inset-x-4 bottom-4 h-2 rounded-full bg-[var(--line)]"></span>
-          <span class="absolute left-4 bottom-4 h-2 w-[calc(100%-2rem)] rounded-full bg-[var(--t-tw)] origin-left scale-x-[.15] transition-transform duration-700 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
+        <button type="button" class="group relative h-56 p-5 border-0 bg-[var(--stage-2)] text-left text-[var(--ink)] cursor-pointer overflow-hidden transition-colors duration-300 hover:bg-[#1c1c1c] hover:text-[var(--field)] focus-visible:bg-[#1c1c1c] focus-visible:text-[var(--field)]">
+          <span class="block text-[15px] font-medium">Revelar</span>
+          <span class="absolute inset-x-5 bottom-5 h-3 bg-current opacity-20"></span>
+          <span class="absolute left-5 bottom-5 h-3 w-[calc(100%-2.5rem)] bg-current origin-left scale-x-[.15] transition-transform duration-700 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
         </button>
 
-        <button type="button" class="group relative h-40 p-4 rounded-md border border-solid border-[var(--line)] bg-[var(--panel-2)] text-left cursor-pointer overflow-hidden">
-          <span class="block font-mono text-[11px] tracking-widest text-[var(--mute)]">GIRAR</span>
-          <span class="absolute left-1/2 top-1/2 -ml-6 -mt-3 h-12 w-12 rounded-full border-4 border-solid border-[var(--line)] border-t-[var(--t-tw)] animate-spin [animation-duration:1.6s] group-hover:[animation-duration:.4s]"></span>
+        <button type="button" class="group relative h-56 p-5 border-0 bg-[var(--stage-2)] text-left text-[var(--ink)] cursor-pointer overflow-hidden transition-colors duration-300 hover:bg-[#1c1c1c] hover:text-[var(--field)] focus-visible:bg-[#1c1c1c] focus-visible:text-[var(--field)]">
+          <span class="block text-[15px] font-medium">Girar</span>
+          <span class="absolute left-1/2 top-1/2 -ml-8 -mt-4 h-16 w-16 rounded-full border-[6px] border-solid border-current border-t-transparent animate-spin [animation-duration:1.6s] group-hover:[animation-duration:.4s]"></span>
         </button>
       </div>
 
-      <div class="flex flex-wrap items-center gap-8 mt-6 font-mono text-xs text-[var(--mute)]">
+      <div class="flex flex-wrap items-center gap-x-10 gap-y-4 mt-8 text-[15px] font-medium">
         <span class="inline-flex items-center gap-3">
-          <span class="relative flex h-3 w-3">
-            <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--t-tw)] opacity-75 animate-ping"></span>
-            <span class="relative inline-flex h-3 w-3 rounded-full bg-[var(--t-tw)]"></span>
+          <span class="relative flex h-4 w-4">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-[#1c1c1c] opacity-60 animate-ping"></span>
+            <span class="relative inline-flex h-4 w-4 rounded-full bg-[#1c1c1c]"></span>
           </span>
           animate-ping
         </span>
-        <span class="inline-flex items-center gap-3"><span class="inline-block h-4 w-4 rounded-sm bg-[var(--t-tw)] animate-wobble"></span>animate-wobble (propio)</span>
-        <span class="inline-flex items-center gap-3"><span class="inline-block h-3 w-3 rounded-full bg-[var(--t-tw)] animate-bounce"></span>animate-bounce</span>
+        <span class="inline-flex items-center gap-3"><span class="inline-block h-5 w-5 bg-[#1c1c1c] animate-wobble"></span>animate-wobble, propio</span>
+        <span class="inline-flex items-center gap-3"><span class="inline-block h-4 w-4 rounded-full bg-[#1c1c1c] animate-bounce"></span>animate-bounce</span>
       </div>
     </div>
 
-    <div class="how">
-      <div>
-        <h3 class="how__title">Cómo lo implementé</h3>
-        <p class="how__text">Cada tarjeta es un <code>group</code>; los hijos reaccionan con <code>group-hover:</code> y <code>group-focus-visible:</code>, así el teclado ve lo mismo que el mouse. La curva con rebote es un valor arbitrario, y <code>animate-wobble</code> es un keyframe que registré en <code>tailwind.config</code>. Desactivé el preflight para que Tailwind conviva con el resto de la página.</p>
-      </div>
-<pre class="code"><span class="tok-com">// js/config/tailwind.config.js</span>
+<pre class="code track__code"><span class="tok-com">// js/config/tailwind.config.js</span>
 theme: { extend: {
   keyframes: { wobble: {
     <span class="tok-str">'0%,100%'</span>: { transform: <span class="tok-str">'rotate(-6deg)'</span> },
@@ -57,7 +61,6 @@ theme: { extend: {
 <span class="tok-com">&lt;!-- en el marcado --&gt;</span>
 &lt;span class=<span class="tok-str">"transition-transform duration-500
   ease-[cubic-bezier(.34,1.56,.64,1)]
-  group-hover:-translate-y-10"</span>&gt;</pre>
-    </div>
+  group-hover:-translate-y-16"</span>&gt;</pre>
   </div>
 </section>

@@ -1,33 +1,44 @@
 /* ==========================================================================
-   Piezas de interfaz reutilizables: botones, grupos de controles, utilidades
+   Piezas de interfaz reutilizables: botones, controles, utilidades
+   Un solo botón: rectangular, de esquinas rectas, relleno plano.
    ========================================================================== */
 
 .btn {
-  font: 500 12px var(--f-mono);
-  letter-spacing: .06em;
-  color: var(--ink);
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 7px 12px;
+  --btn-bg: color-mix(in srgb, var(--btn-ink, var(--ink)) 12%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 18px;
+  font: 500 var(--step-small)/1.2 var(--f-text);
+  color: var(--btn-ink, var(--ink));
+  background: var(--btn-bg);
+  border: 0;
+  border-radius: 0;
   cursor: pointer;
-  transition: border-color .2s, background .2s;
+  text-decoration: none;
+  transition: background-color .2s, color .2s, transform .25s var(--ease-spring);
 }
-.btn:hover { border-color: var(--c, var(--playhead)); }
-.btn[aria-pressed="true"] {
-  background: var(--c, var(--playhead));
-  border-color: var(--c, var(--playhead));
-  color: var(--ground);
+.btn:hover { --btn-bg: color-mix(in srgb, var(--btn-ink, var(--ink)) 22%, transparent); }
+.btn:active { transform: scale(.96); }
+.btn[aria-pressed="true"] { background: var(--btn-ink, var(--ink)); color: var(--field, var(--bg)); }
+
+/* La acción principal de la página */
+.btn--primary {
+  min-height: 52px;
+  padding: 14px 24px;
+  font-size: var(--step-body);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
+.btn--primary:hover { background: color-mix(in srgb, var(--accent) 82%, var(--ink)); }
+.btn--primary svg { transition: transform .3s var(--ease-spring); }
+.btn--primary:hover svg { transform: translateX(4px); }
 
 .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-.readout {
-  font-family: var(--f-mono);
-  font-size: 12px;
-  color: var(--mute);
-  font-variant-numeric: tabular-nums;
-}
+.readout { font-size: var(--step-small); font-variant-numeric: tabular-nums; }
 
 .visually-hidden {
   position: absolute;
@@ -40,13 +51,11 @@
 
 /* Mensaje que muestra el cargador si un componente no se pudo traer */
 .load-error {
-  margin-block: 32px;
-  padding: 20px;
-  border: 1px solid var(--playhead);
-  border-radius: 6px;
-  background: var(--panel);
+  margin: 96px var(--margin) 32px;
+  padding: 24px;
+  background: var(--surface);
   display: grid;
   gap: 8px;
   max-width: 70ch;
 }
-.load-error code { font-family: var(--f-mono); color: var(--playhead); }
+.load-error code { color: var(--accent); }

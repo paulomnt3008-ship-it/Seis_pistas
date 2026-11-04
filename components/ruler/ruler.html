@@ -1,6 +1,15 @@
-<header class="ruler" aria-label="Línea de tiempo de la página">
-  <div class="ruler__tc" data-ref="timecode"><small>TC</small>00:00:00:00</div>
-  <div class="ruler__scale" data-ref="scale">
-    <div class="ruler__playhead" data-ref="playhead"></div>
+<header class="nav frame" aria-label="Navegación principal">
+  <a class="nav__mark display" href="#inicio">Seis pistas</a>
+  <nav class="nav__links" aria-label="Secciones">
+    <a href="#pistas">Pistas</a>
+    <a href="#criterio">Criterio</a>
+    <a href="#creditos">Créditos</a>
+  </nav>
+  <p class="nav__tc" aria-label="Timecode de la página">
+    <span class="nav__track" data-ref="track">Portada</span>
+    <span class="nav__time" data-ref="timecode" aria-hidden="true">00:00:00:00</span>
+  </p>
+  <div class="nav__bar" aria-hidden="true">
+    <div class="nav__head" data-ref="playhead"></div>
   </div>
 </header>

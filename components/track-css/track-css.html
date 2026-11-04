@@ -1,48 +1,80 @@
-<section class="track tone-css" id="pista-css" data-track data-title="CSS + Web Animations">
-  <div class="track__head">
-    <span class="track__id">V1 · NATIVO</span>
-    <h2 class="track__title">CSS + Web Animations<small>@keyframes · transition · element.animate()</small></h2>
-    <p class="track__lede">La base de todo. Antes de cargar una librería me pregunto si el navegador ya lo resuelve. <strong>Para microinteracciones y loops, casi siempre sí.</strong></p>
-    <ul class="chips"><li>cubic-bezier</li><li>steps()</li><li>transform-origin</li><li>WAAPI</li></ul>
-  </div>
+<section class="track tone-css" id="pista-css" data-track data-title="CSS + Web Animations" aria-labelledby="pista-css-title">
+  <header class="track__slate frame">
+    <span class="track__fact">Nativo, sin librerías</span>
+    <h2 class="track__title display" id="pista-css-title">CSS + Web Animations</h2>
+    <span class="track__fact track__fact--end">@keyframes · steps() · WAAPI</span>
+  </header>
 
-  <div class="track__body">
-    <div class="stage easing">
-      <span class="stage__label">CURVAS DE ACELERACIÓN · ELIGE UNA</span>
-      <div>
-        <div class="controls" data-ref="buttons" role="group" aria-label="Curvas de aceleración"></div>
-        <div class="easing__lane" data-ref="lane"><div class="easing__ball" data-ref="ball"></div></div>
-        <p class="easing__code" data-ref="code">transition-timing-function: <b>linear</b></p>
-        <div class="easing__floor" aria-label="Pelota con squash and stretch">
-          <div class="easing__shadow"></div>
-          <div class="easing__squash"></div>
+  <div class="track__body grid12 frame">
+    <div class="track__text" data-reveal-group>
+      <p class="track__lede" data-reveal>Antes de cargar una librería me pregunto si el navegador ya lo resuelve. Para loops y microinteracciones, casi siempre sí.</p>
+      <h3 class="track__how" data-reveal>Cómo lo implementé</h3>
+      <p data-reveal>El disco es un fenaquistiscopio de 1833 dibujado en SVG: doce dibujos de una pelota alrededor del borde. Gira con <code>element.animate()</code> y <code>easing: steps(12)</code>, así avanza exactamente un dibujo por paso y la pelota rebota. El control de fotogramas por segundo cambia <code>playbackRate</code> sin reiniciar el giro.</p>
+      <p data-reveal>Abajo, la pelota recorre el riel con la curva que elijas, y la que rebota es CSS puro, con squash and stretch desde la base.</p>
+      <ul class="track__tags" data-reveal>
+        <li><code>steps()</code></li><li><code>cubic-bezier</code></li><li><code>playbackRate</code></li><li><code>transform-origin</code></li>
+      </ul>
+    </div>
+
+    <div class="track__stage css-stage">
+      <!-- La pieza viva: el disco -->
+      <div class="stage disc">
+        <span class="stage__label">Fenaquistiscopio en SVG, 12 dibujos</span>
+        <div class="disc__body">
+          <div class="disc__plate" data-ref="plate"></div>
+          <div class="disc__side">
+            <p class="disc__frame" aria-live="off">Dibujo <span data-ref="frameOut">1</span> de 12</p>
+            <div class="disc__fps">
+              <label for="discFps">Fotogramas por segundo</label>
+              <div class="disc__fpsrow">
+                <input id="discFps" type="range" min="1" max="24" step="1" value="12" data-ref="fps">
+                <output class="disc__out" for="discFps" data-ref="fpsOut">12 fps</output>
+              </div>
+            </div>
+            <button class="btn disc__toggle" type="button" data-ref="toggle" aria-pressed="true">Detener</button>
+            <p class="disc__note">A 12 fps la pelota rebota una vez por segundo. Bájalo a 2 y verás cada dibujo por separado.</p>
+          </div>
         </div>
       </div>
-      <svg class="easing__curve" viewBox="-8 -8 116 256" role="img" aria-label="Gráfica de la curva seleccionada">
-        <line class="easing__guide" x1="0" y1="70" x2="100" y2="70"/>
-        <line class="easing__guide" x1="0" y1="170" x2="100" y2="170"/>
-        <text x="102" y="73">1</text>
-        <text x="102" y="173">0</text>
-        <path class="easing__path" data-ref="curvePath" d=""/>
-        <circle class="easing__dot" data-ref="curveDot" r="4" cx="0" cy="170"/>
-      </svg>
+
+      <!-- Curvas de aceleración -->
+      <div class="stage easing">
+        <span class="stage__label">Curvas de aceleración</span>
+        <div class="controls easing__buttons" data-ref="buttons" role="group" aria-label="Curvas de aceleración"></div>
+        <div class="easing__lane" data-ref="lane"><div class="easing__ball" data-ref="ball"></div></div>
+        <div class="easing__bottom">
+          <svg class="easing__curve" viewBox="-18 -22 136 144" role="img" aria-label="Gráfica de la curva seleccionada">
+            <!-- Recuadro con margen: cabe incluso la anticipación, que se sale de 0 y de 1 -->
+            <rect class="easing__box" x="-18" y="-22" width="136" height="144"/>
+            <rect class="easing__guide" x="0" y="-1" width="100" height="2"/>
+            <rect class="easing__guide" x="0" y="99" width="100" height="2"/>
+            <rect class="easing__guide" x="-1" y="0" width="2" height="100"/>
+            <path class="easing__path" data-ref="curvePath" d=""/>
+            <circle class="easing__dot" data-ref="curveDot" r="6" cx="0" cy="100"/>
+          </svg>
+          <div class="easing__info">
+            <p class="easing__code" data-ref="code"><code>linear</code></p>
+            <div class="easing__floor" role="img" aria-label="Pelota que rebota con squash and stretch">
+              <div class="easing__shadow"></div>
+              <div class="easing__squash"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="how">
-      <div>
-        <h3 class="how__title">Cómo lo implementé</h3>
-        <p class="how__text">La pelota de arriba se mueve con <code>element.animate()</code>, la versión en JavaScript de las animaciones CSS. Cambiar la curva solo cambia el parámetro <code>easing</code>. La pelota que rebota es CSS puro: un <code>@keyframes</code> que aplasta y estira desde la base, el principio clásico de squash and stretch.</p>
-      </div>
-<pre class="code"><span class="tok-com">/* rebote: aplastar al tocar el suelo */</span>
+<pre class="code track__code"><span class="tok-com">// El disco: un dibujo por paso</span>
+<span class="tok-key">const</span> giro = disco.<span class="tok-key">animate</span>(
+  [{ transform: <span class="tok-str">'rotate(0)'</span> }, { transform: <span class="tok-str">'rotate(-360deg)'</span> }],
+  { duration: 1000, iterations: Infinity, easing: <span class="tok-str">'steps(12)'</span> });
+
+<span class="tok-com">// 12 dibujos en 1 s = 12 fps; el control escala la velocidad</span>
+fps.oninput = () =&gt; giro.<span class="tok-key">updatePlaybackRate</span>(fps.value / 12);
+
+<span class="tok-com">/* La pelota que rebota: CSS puro */</span>
 <span class="tok-key">@keyframes</span> bounce {
   0%, 100% { transform: scale(1.35, .65); }
-  50%      { transform: translateY(-74px); }
-}
-<span class="tok-com">// WAAPI: misma animación, controlada desde JS</span>
-ball.<span class="tok-key">animate</span>(
-  [{ transform: <span class="tok-str">'translateX(0)'</span> },
-   { transform: <span class="tok-str">`translateX(${d}px)`</span> }],
-  { duration: 1200, easing, fill: <span class="tok-str">'forwards'</span> });</pre>
-    </div>
+  50%      { transform: translateY(-70px); }
+}</pre>
   </div>
 </section>

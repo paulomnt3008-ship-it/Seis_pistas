@@ -1,21 +1,30 @@
-<section class="track tone-alpine" id="pista-alpine" data-track data-title="Alpine.js">
-  <div class="track__head">
-    <span class="track__id">V6 · ESTADO</span>
-    <h2 class="track__title">Alpine.js<small>3.14 · x-data · x-show · x-transition</small></h2>
-    <p class="track__lede">Reactividad declarativa directo en el HTML. <strong>Las transiciones dependen del estado</strong>: cuando un dato cambia, el elemento entra o sale animado sin código imperativo.</p>
-    <ul class="chips"><li>x-transition</li><li>x-for</li><li>$nextTick</li></ul>
-  </div>
+<section class="track tone-alpine" id="pista-alpine" data-track data-title="Alpine.js" aria-labelledby="pista-alpine-title">
+  <header class="track__slate frame">
+    <span class="track__fact">Movimiento que depende del estado</span>
+    <h2 class="track__title display" id="pista-alpine-title">Alpine.js</h2>
+    <span class="track__fact track__fact--end">3.14.1 · x-transition</span>
+  </header>
 
-  <div class="track__body">
+  <div class="track__body grid12 frame">
+    <div class="track__text" data-reveal-group>
+      <p class="track__lede" data-reveal>Reactividad declarativa en el HTML. Cuando un dato cambia, el elemento entra o sale animado sin código imperativo.</p>
+      <h3 class="track__how" data-reveal>Cómo lo implementé</h3>
+      <p data-reveal>Alpine no anima la inserción en un <code>x-for</code>, así que cada tarea nace con <code>shown: false</code> y se activa en el siguiente tick. Eso dispara <code>x-transition</code>. Para quitar, primero oculto y después elimino del arreglo cuando termina la salida.</p>
+      <p data-reveal>El estado vive en su propio módulo, registrado con <code>Alpine.data()</code>.</p>
+      <ul class="track__tags" data-reveal>
+        <li><code>x-transition</code></li><li><code>x-for</code></li><li><code>$nextTick</code></li>
+      </ul>
+    </div>
+
     <!-- El estado y los métodos viven en track-alpine.js (Alpine.data('tareas')) -->
-    <div class="stage tasks" x-data="tareas">
-      <span class="stage__label">AGREGA Y QUITA ELEMENTOS</span>
+    <div class="track__stage stage tasks" x-data="tareas">
+      <span class="stage__label">Agrega y quita elementos</span>
 
-      <div>
+      <div class="tasks__main">
         <form class="tasks__form" @submit.prevent="add()">
           <label for="alpineInput" class="visually-hidden">Nueva tarea</label>
           <input id="alpineInput" class="tasks__input" x-model="draft" placeholder="Escribe una tarea y presiona Enter" autocomplete="off">
-          <button class="btn" type="submit">Agregar</button>
+          <button class="btn tasks__add" type="submit">Agregar</button>
         </form>
 
         <ul class="tasks__list">
@@ -28,15 +37,15 @@
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0 translate-x-8">
               <span x-text="item.text"></span>
-              <button class="tasks__remove" type="button" @click="remove(item.id)" :aria-label="'Quitar ' + item.text">quitar ×</button>
+              <button class="tasks__remove" type="button" @click="remove(item.id)" :aria-label="'Quitar ' + item.text">Quitar</button>
             </li>
           </template>
         </ul>
       </div>
 
-      <div>
-        <p class="tasks__count"><span x-text="items.length">3</span> elementos en el estado</p>
-        <button class="btn tasks__toggle" type="button" @click="open = !open" :aria-pressed="open.toString()" x-text="open ? 'Ocultar panel' : 'Mostrar panel'">Ocultar panel</button>
+      <div class="tasks__side">
+        <p class="tasks__count"><span class="tasks__num" x-text="items.length">3</span> elementos en el estado</p>
+        <button class="btn" type="button" @click="open = !open" :aria-pressed="open.toString()" x-text="open ? 'Ocultar panel' : 'Mostrar panel'">Ocultar panel</button>
         <div class="tasks__panel" x-show="open"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-90"
@@ -48,12 +57,7 @@
       </div>
     </div>
 
-    <div class="how">
-      <div>
-        <h3 class="how__title">Cómo lo implementé</h3>
-        <p class="how__text">Alpine no anima la inserción de elementos en un <code>x-for</code>, así que cada tarea nace con <code>shown: false</code> y se activa en el siguiente tick. Eso dispara <code>x-transition</code>. Para quitar, primero oculto y después elimino del arreglo cuando termina la salida. El estado vive en su propio módulo JS, registrado con <code>Alpine.data()</code>.</p>
-      </div>
-<pre class="code"><span class="tok-com">// track-alpine.js</span>
+<pre class="code track__code"><span class="tok-com">// track-alpine.js</span>
 Alpine.<span class="tok-key">data</span>(<span class="tok-str">'tareas'</span>, () =&gt; ({
   add() {
     <span class="tok-key">const</span> item = { id, text, shown: <span class="tok-key">false</span> };
@@ -63,6 +67,5 @@ Alpine.<span class="tok-key">data</span>(<span class="tok-str">'tareas'</span>, 
 }));
 <span class="tok-com">&lt;!-- track-alpine.html --&gt;</span>
 &lt;div x-data=<span class="tok-str">"tareas"</span>&gt;</pre>
-    </div>
   </div>
 </section>

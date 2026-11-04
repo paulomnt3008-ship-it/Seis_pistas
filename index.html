@@ -4,44 +4,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Seis Pistas de Movimiento</title>
-  <meta name="claude:viewport-fit-sides" content="cover">
+  <meta name="description" content="Portafolio de animación frontend: seis herramientas, seis demos vivas y el código que las mueve.">
 
-  <!-- Tipografías -->
+  <!-- Tipografías: Unbounded (display) y Onest (texto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&family=Hanken+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&family=Onest:wght@400;500&display=swap">
 
+  <!-- Versión de los archivos: cámbiala (aquí y en el importmap) cada vez que edites
+       el proyecto, para que ningún navegador use una copia vieja guardada en caché. -->
   <!-- Estilos globales (los de cada componente los carga js/core/loader.js) -->
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/ui.css">
-  <link rel="stylesheet" href="css/track-layout.css">
+  <link rel="stylesheet" href="css/tokens.css?v=2026-11-04k">
+  <link rel="stylesheet" href="css/base.css?v=2026-11-04k">
+  <link rel="stylesheet" href="css/ui.css?v=2026-11-04k">
+  <link rel="stylesheet" href="css/track-layout.css?v=2026-11-04k">
 
   <!-- Librerías de animación (Alpine se carga al final desde js/main.js) -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="js/config/tailwind.config.js"></script>
+  <script src="js/config/tailwind.config.js?v=2026-11-04k"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+  <!-- Cada módulo compartido se pide con la versión, venga de donde venga el import -->
+  <script type="importmap">
+  {
+    "imports": {
+      "./js/components.js": "./js/components.js?v=2026-11-04k",
+      "./js/core/loader.js": "./js/core/loader.js?v=2026-11-04k",
+      "./js/core/reveal.js": "./js/core/reveal.js?v=2026-11-04k",
+      "./js/core/scroll-fx.js": "./js/core/scroll-fx.js?v=2026-11-04k",
+      "./js/core/motion.js": "./js/core/motion.js?v=2026-11-04k",
+      "./js/core/draw.js": "./js/core/draw.js?v=2026-11-04k"
+    }
+  }
+  </script>
+
   <!-- Punto de entrada -->
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js?v=2026-11-04k"></script>
 </head>
 <body>
-  <div class="wrap">
-    <!-- Cada data-component se reemplaza por components/<nombre>/<nombre>.html -->
-    <div data-component="ruler"></div>
-    <main>
-      <div data-component="hero"></div>
+  <!-- Cada data-component se reemplaza por components/<nombre>/<nombre>.html -->
+  <div data-component="ruler"></div>
+  <main>
+    <div data-component="hero"></div>
+    <div data-component="prologo"></div>
+    <div id="pistas">
       <div data-component="track-css"></div>
       <div data-component="track-tailwind"></div>
       <div data-component="track-gsap"></div>
       <div data-component="track-anime"></div>
       <div data-component="track-three"></div>
       <div data-component="track-alpine"></div>
-    </main>
-    <div data-component="footer"></div>
-    <div data-component="tai-button"></div>
-  </div>
+    </div>
+    <div data-component="criterio"></div>
+  </main>
+  <div data-component="footer"></div>
 </body>
 </html>

@@ -6,12 +6,13 @@
 export const components = [
   { name: 'ruler',          css: true, js: true  },
   { name: 'hero',           css: true, js: true  },
+  { name: 'prologo',        css: true, js: true  },
   { name: 'track-css',      css: true, js: true  },
   { name: 'track-tailwind', css: true, js: false },
   { name: 'track-gsap',     css: true, js: true  },
   { name: 'track-anime',    css: true, js: true  },
   { name: 'track-three',    css: true, js: true  },
   { name: 'track-alpine',   css: true, js: true  },
-  { name: 'footer',         css: true, js: false },
-  { name: 'tai-button',     css: true, js: true  }
+  { name: 'criterio',       css: true, js: true  },
+  { name: 'footer',         css: true, js: true  }
 ];

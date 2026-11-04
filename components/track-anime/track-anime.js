@@ -1,7 +1,7 @@
 import { prefersReducedMotion } from '../../js/core/motion.js';
 
-const ROWS = 7;
-const CELL = 26;
+const ROWS = 9;
+const CELL = 30;
 const MIN_COLS = 8;
 const MAX_COLS = 22;
 

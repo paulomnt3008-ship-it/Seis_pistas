@@ -1,8 +1,9 @@
-/* V5 · Three.js: lienzo WebGL */
+/* Pista Three.js: lienzo WebGL */
 
 .scene3d {
   display: block;
   width: 100%;
-  height: 340px;
+  height: clamp(360px, 34vw, 480px);
   cursor: grab;
 }
+.scene3d:active { cursor: grabbing; }

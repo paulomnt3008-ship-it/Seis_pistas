@@ -1,0 +1,84 @@
+/* Prólogo: la frase queda fija al centro y las imágenes pasan por los lados.
+   Nada cruza por encima del texto: las imágenes viven en las columnas exteriores. */
+
+.prologo {
+  position: relative;
+  padding-top: var(--gap-section);
+}
+
+.prologo__pin {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  height: 100svh;
+  pointer-events: none;
+}
+
+.prologo__words {
+  width: min(46vw, 680px);
+  display: grid;
+  gap: 24px;
+  text-align: center;
+  justify-items: center;
+}
+.prologo__title { font-size: var(--step-head); }
+.prologo__text { font-size: var(--step-lead); line-height: 1.35; }
+.prologo__text--second { font-size: var(--step-body); max-width: 40ch; color: var(--muted); }
+
+/* La película de imágenes pasa por debajo, en flujo normal */
+.prologo__reel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  row-gap: 12svh;
+  margin-top: -78svh;
+  padding-bottom: 24svh;
+}
+
+.prologo__pic { margin: 0; display: grid; gap: 10px; will-change: transform; }
+.prologo__pic figcaption { font-size: var(--step-small); color: var(--muted); }
+
+.prologo__pic--a { width: 20vw; justify-self: start; margin-left: 2vw; }
+.prologo__pic--b { width: 24vw; justify-self: end; }
+.prologo__pic--c { width: 16vw; justify-self: start; margin-left: 4vw; }
+.prologo__pic--d { width: 24vw; justify-self: end; }
+
+/* --- Los aparatos --- */
+.device { position: relative; overflow: hidden; background: var(--surface); }
+.device svg { display: block; width: 100%; height: 100%; }
+
+.device--disc { aspect-ratio: 1; padding: 8%; }
+
+/* Zoótropo: una tira horizontal y una ranura que deja ver un cuadro */
+.device--zoetrope { aspect-ratio: 16 / 10; display: grid; align-items: center; }
+.zoetrope__strip { display: flex; width: 800%; }  /* 16 cuadros, cada uno de medio ancho */
+.zoetrope__strip svg { flex: 0 0 6.25%; width: 6.25%; height: auto; }
+.zoetrope__slot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Las cortinas a los lados dejan una ranura al centro */
+  border-left: 24px solid var(--surface);
+  border-right: 24px solid var(--surface);
+}
+
+/* Película: tira vertical; cada cuadro trae sus perforaciones (prologo.js) */
+.device--film { aspect-ratio: 4 / 5; display: grid; justify-items: center; }
+.film__strip { width: 70%; }
+.film__strip svg { height: auto; }
+
+.device--chrono { aspect-ratio: 16 / 10; }
+
+/* Teléfono: sin fijar; la frase primero y las imágenes alternando márgenes */
+@media (max-width: 1100px) {
+  .prologo__pin { position: static; height: auto; }
+  .prologo__words { width: 100%; max-width: 60ch; text-align: left; justify-items: start; }
+  .prologo__reel { margin-top: 64px; row-gap: 48px; padding-bottom: 0; }
+  .prologo__pic { transform: none !important; }
+  .prologo__pic--a { width: 64%; margin-left: 0; }
+  .prologo__pic--b { width: 86%; }
+  .prologo__pic--c { width: 52%; margin-left: 0; }
+  .prologo__pic--d { width: 86%; }
+}

@@ -1,126 +1,241 @@
-/* Portada: título por letras y dope sheet animado */
+/* Portada: una ventana que se abre hasta los bordes.
+   La película ocupa toda la pantalla y nunca se mueve; solo crece la abertura
+   (clip-path: inset), que hero.js calcula con el scroll. */
 
-.hero { display: grid; gap: 36px; padding-block: 56px 40px; }
-
-.hero__eyebrow {
-  font-family: var(--f-mono);
-  font-size: 12px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--mute);
+.hero {
+  position: relative;
+  height: 200svh;
 }
 
-.hero__title {
-  font-family: var(--f-display);
-  font-weight: 900;
-  font-size: clamp(3.4rem, 11vw, 9.5rem);
-  line-height: .84;
-  letter-spacing: -.01em;
-  text-transform: uppercase;
-}
-.hero__title em { font-style: normal; color: var(--playhead); }
-.hero__letter { display: inline-block; }
-
-.hero__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: 40px;
-  align-items: end;
+.hero__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
 }
 
-.hero__lead { max-width: 52ch; font-size: 1.125rem; }
-.hero__lead--quiet { margin-top: 12px; font-size: 1rem; color: var(--mute); }
-
-.hero__specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  margin-top: 22px;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  color: var(--mute);
+.hero__window {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  /* Valores iniciales; hero.js los recalcula según la pantalla */
+  clip-path: inset(var(--win-top, 14svh) var(--win-side, 32vw) var(--win-bottom, 14svh) var(--win-side, 32vw));
 }
-.hero__specs b { color: var(--ink); font-weight: 500; }
 
-/* --- Dope sheet --- */
-.dope {
-  --label-w: 92px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 6px;
+.hero__scene {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
   overflow: hidden;
 }
-.dope__head {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--line);
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: .08em;
-  color: var(--mute);
-}
-.dope__body { position: relative; }
 
-.dope__row {
-  display: grid;
-  grid-template-columns: var(--label-w) 1fr;
-  height: 34px;
-  border-bottom: 1px solid var(--line);
-}
-.dope__row:last-of-type { border-bottom: 0; }
-
-.dope__label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-left: 10px;
-  border-right: 1px solid var(--line);
-  font-family: var(--f-mono);
-  font-size: 11px;
-  white-space: nowrap;
-}
-.dope__label::before { content: ""; width: 8px; height: 8px; background: var(--c); border-radius: 1px; }
-
-.dope__lane {
+/* --- Seis carriles, uno por pista --- */
+.lanes__ground { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.lanes {
   position: relative;
-  background: repeating-linear-gradient(90deg, transparent 0 calc(12.5% - 1px), rgba(255, 255, 255, .04) calc(12.5% - 1px) 12.5%);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  height: 100%;
 }
-.dope__key {
-  position: absolute;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
-  background: var(--panel);
-  border: 1.5px solid var(--c);
-  transform: rotate(45deg);
-  transition: background .15s, transform .15s;
-}
-.dope__key.is-hit { background: var(--c); transform: rotate(45deg) scale(1.5); }
-.dope__seg {
-  position: absolute;
-  top: 50%;
-  height: 2px;
-  margin-top: -1px;
-  background: var(--c);
-  opacity: .35;
+.lane {
+  position: relative;
+  overflow: hidden;
+  --ink: #1c1c1c;
+  --tone: color-mix(in srgb, var(--field) 80%, #000);
 }
 
-.dope__playhead {
+.lane__name {
+  position: absolute;
+  top: calc(var(--nav-h) + 12px);
+  left: 20px;
+  z-index: 2;
+  padding: 6px 10px;
+  background: #1c1c1c;
+  color: var(--field);
+  font: 800 14px/1 var(--f-display);
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  transform-origin: left center;
+  /* La etiqueta salta cuando el cabezal cruza su carril */
+  animation: lane-hit 6s linear infinite;
+  animation-delay: calc((var(--li) + .5) * 1s - 6s);
+}
+@keyframes lane-hit {
+  0%       { transform: scale(1.3); background: #f1f1ef; color: #1c1c1c; }
+  6%, 100% { transform: scale(1); background: #1c1c1c; color: var(--field); }
+}
+
+/* La tira: los cuadros corren sin fin (la tira está duplicada) */
+.lane__strip {
+  display: grid;
+  gap: 14px;
+  padding: 7px 14px;
+  animation: lane-run var(--dur) linear infinite;
+  animation-direction: var(--dir);
+}
+@keyframes lane-run { to { transform: translateY(-50%); } }
+
+.rf {
+  position: relative;
+  aspect-ratio: 5 / 6;
+  overflow: hidden;
+  background: var(--tone);
+  display: grid;
+  place-content: center;
+  place-items: center;
+  --delay: calc(var(--k) * -0.37s);
+}
+.rf i, .rf b { display: block; background: var(--ink); }
+
+/* CSS: una pelota que rebota con squash and stretch */
+.rf--css { place-content: stretch; }
+.f-ball {
+  position: absolute; left: 50%; bottom: 22%;
+  width: 26%; aspect-ratio: 1; margin-left: -13%;
+  border-radius: 50%; transform-origin: 50% 100%;
+  animation: f-bounce .9s cubic-bezier(.5, 0, .5, 1) infinite var(--delay);
+}
+.f-floor { position: absolute; left: 18%; right: 18%; bottom: 18%; height: 4%; }
+@keyframes f-bounce {
+  0%, 100% { transform: translateY(0) scale(1.35, .65); }
+  15%      { transform: translateY(-20%) scale(.85, 1.15); }
+  50%      { transform: translateY(-150%) scale(1); }
+  85%      { transform: translateY(-20%) scale(.85, 1.15); }
+}
+
+/* Tailwind: un cuadro que crece y gira como un estado de hover */
+.f-square { width: 46%; aspect-ratio: 1; grid-area: 1 / 1; animation: f-pop 1.6s var(--ease-spring) infinite var(--delay); }
+.rf--tw { grid-template: 1fr / 1fr; width: 100%; }
+@keyframes f-pop { 0%, 55%, 100% { transform: scale(.5) rotate(0); } 25% { transform: scale(1) rotate(45deg); } }
+
+/* GSAP: barras en cascada */
+.rf--gsap { grid-auto-flow: column; grid-auto-columns: 1fr; place-items: end stretch; gap: 7%; padding: 22% 16%; place-content: stretch; }
+.f-bar { height: 100%; align-self: stretch; transform-origin: 50% 100%; animation: f-bar 1.4s var(--ease-spring) infinite alternate var(--delay); }
+.f-bar:nth-child(2) { animation-delay: calc(var(--delay) + .08s); }
+.f-bar:nth-child(3) { animation-delay: calc(var(--delay) + .16s); }
+.f-bar:nth-child(4) { animation-delay: calc(var(--delay) + .24s); }
+.f-bar:nth-child(5) { animation-delay: calc(var(--delay) + .32s); }
+@keyframes f-bar { from { transform: scaleY(.1); } to { transform: scaleY(1); } }
+
+/* Anime.js: una onda que recorre una rejilla de puntos */
+.rf--anime { grid-template-columns: repeat(3, 1fr); place-items: center stretch; gap: 12%; padding: 22%; place-content: center stretch; }
+.f-dot { aspect-ratio: 1; border-radius: 50%; animation: f-dot 1.4s ease-in-out infinite; }
+.f-dot:nth-child(1) { animation-delay: 0s; }
+.f-dot:nth-child(2), .f-dot:nth-child(4) { animation-delay: .12s; }
+.f-dot:nth-child(3), .f-dot:nth-child(5), .f-dot:nth-child(7) { animation-delay: .24s; }
+.f-dot:nth-child(6), .f-dot:nth-child(8) { animation-delay: .36s; }
+.f-dot:nth-child(9) { animation-delay: .48s; }
+@keyframes f-dot { 0%, 100% { transform: scale(.35); } 40% { transform: scale(1); } }
+
+/* Three.js: un cuadro que gira en 3D */
+.rf--three { perspective: 400px; }
+.f-cube { width: 44%; aspect-ratio: 1; grid-area: 1 / 1; animation: f-flip 3s linear infinite var(--delay); }
+.rf--three { grid-template: 1fr / 1fr; width: 100%; height: 100%; place-items: center; }
+@keyframes f-flip { from { transform: rotateX(-20deg) rotateY(0); } to { transform: rotateX(-20deg) rotateY(360deg); } }
+
+/* Alpine: filas que entran y salen según el estado */
+.rf--alpine { grid-template-rows: repeat(3, 14%); padding: 22% 16%; gap: 10%; place-items: stretch; place-content: center stretch; }
+.f-row { transform-origin: left; animation: f-row 2.8s var(--ease-out) infinite; }
+.f-row:nth-child(2) { animation-delay: .18s; }
+.f-row:nth-child(3) { animation-delay: .36s; }
+@keyframes f-row {
+  0%        { transform: translateX(-20%) scaleX(.15); opacity: 0; }
+  18%, 70%  { transform: none; opacity: 1; }
+  88%, 100% { transform: translateX(30%); opacity: 0; }
+}
+
+/* El cabezal de reproducción barre las seis pistas */
+.hero__playhead {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(var(--label-w) + (100% - var(--label-w)) * var(--p, .4));
-  z-index: 1;
-  width: 2px;
-  background: var(--playhead);
-  pointer-events: none;
+  left: 0;
+  z-index: 3;
+  width: 6px;
+  margin-left: -3px;
+  background: #1c1c1c;
+  animation: playhead 6s linear infinite;
+}
+.hero__playhead::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--nav-h) - 4px);
+  left: -9px;
+  width: 24px;
+  height: 24px;
+  background: #1c1c1c;
+  transform: rotate(45deg);
+}
+@keyframes playhead { from { transform: translateX(0); } to { transform: translateX(100vw); } }
+
+.hero__scene.is-paused *,
+.hero__scene.is-paused *::before,
+.hero__scene.is-paused *::after,
+.hero__scene.is-paused .hero__playhead { animation-play-state: paused; }
+
+@media (max-width: 900px) {
+  .lane__strip { gap: 8px; padding: 4px 6px; }
+  .lane__name { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__scene * { animation: none !important; }
+  .hero__playhead { left: 50%; }
 }
 
-@media (max-width: 860px) {
-  .hero__grid { grid-template-columns: minmax(0, 1fr); }
+.hero__caption {
+  position: absolute;
+  left: var(--margin);
+  bottom: var(--margin);
+  padding: 8px 12px;
+  background: var(--bg);
+  font-size: var(--step-small);
+  opacity: 0;
 }
-@media (max-width: 520px) {
-  .dope { --label-w: 74px; }
+
+/* Texto a los lados de la ventana, alineado con su borde inferior */
+.hero__copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(16px, 2vw, 32px);
+  align-items: end;
+  padding-bottom: var(--win-bottom, 14svh);
+  pointer-events: none;
+}
+.hero__copy a { pointer-events: auto; }
+
+.hero__title {
+  grid-column: 1 / span 4;
+  font-size: clamp(2.75rem, 4.4vw, 4rem);
+  line-height: .95;
+}
+
+.hero__side {
+  grid-column: 10 / -1;
+  display: grid;
+  gap: 28px;
+  justify-items: start;
+}
+.hero__lead { font-size: var(--step-body); }
+
+/* Teléfono: título arriba, ventana al centro, frase y acción debajo */
+@media (max-width: 900px) {
+  .hero__copy {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: space-between;
+    padding-top: calc(var(--nav-h) + 16px);
+    padding-bottom: 24px;
+  }
+  .hero__title { grid-column: 1; align-self: start; font-size: 10vw; }
+  .hero__side { grid-column: 1; align-self: end; gap: 18px; }
+  .hero__side .btn { width: 100%; }
+  .hero__lead { max-width: none; font-size: max(18px, var(--step-body)); }
+}
+
+/* Sin movimiento: la portada ocupa una pantalla y la ventana queda quieta */
+@media (prefers-reduced-motion: reduce) {
+  .hero { height: 100svh; }
 }

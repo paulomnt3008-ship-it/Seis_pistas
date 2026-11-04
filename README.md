@@ -16,9 +16,17 @@ También funciona la extensión **Live Server** de VS Code o `python -m http.ser
 
 No hay paso de build: todas las librerías se cargan desde CDN.
 
+### Versión de los archivos (caché)
+
+Todos los archivos propios se piden con `?v=…` en la URL (ver `index.html`: los `<link>`,
+el `importmap` y el `<script>` de `main.js`; el cargador agrega la misma versión a cada
+componente). **Cada vez que edites el proyecto, cambia esa versión en `index.html`**
+(reemplaza todas las apariciones, por ejemplo `2026-11-04e` → `2026-11-05a`). Así ningún
+navegador mezcla archivos nuevos con copias viejas guardadas en caché.
+
 ## Páginas
 
-- `index.html`: el portafolio. Al final tiene la escena post-créditos con el botón **Solo para Tai**.
+- `index.html`: el portafolio. El cierre tiene la escena post-créditos con el botón **Solo para Tai**.
 - `tai.html`: la página del mensaje. El botón llega aquí con un telón circular; también se puede
   abrir directo con `/tai.html`.
 
@@ -51,32 +59,43 @@ GitHub Pages ya es un servidor, así que la carga de componentes funciona sin co
 seis-pistas/
 ├── index.html                 Esqueleto: <head>, librerías y un contenedor por componente
 ├── css/
-│   ├── tokens.css             Colores, tipografías y clases .tone-* (color de cada pista)
-│   ├── base.css               Reset mínimo y estilos del documento
-│   ├── ui.css                 Piezas reutilizables: .btn, .controls, .readout…
-│   └── track-layout.css       Esqueleto común de las pistas: cabecera, escenario, código
+│   ├── tokens.css             Colores, tipografías (Unbounded + Onest), tamaños y clases .tone-*
+│   ├── base.css               Reset mínimo, rejilla de 12 columnas y márgenes
+│   ├── ui.css                 Botones y utilidades
+│   └── track-layout.css       Esqueleto de las pistas: campo de color, claqueta fija, escenario, código
 ├── js/
-│   ├── main.js                Punto de entrada: monta componentes y arranca Alpine
+│   ├── main.js                Punto de entrada: monta componentes, activa entradas y arranca Alpine
 │   ├── components.js          Registro de componentes, en orden
 │   ├── config/
 │   │   └── tailwind.config.js Configuración del Play CDN (keyframe propio, safelist)
 │   └── core/
 │       ├── loader.js          Trae HTML/CSS/JS de cada componente y llama a init(root)
+│       ├── reveal.js          Entradas en cascada al hacer scroll ([data-reveal-group] / [data-reveal])
+│       ├── scroll-fx.js       Movimiento ligado al scroll: cortinillas, parallax, texto palabra por palabra
+│       ├── draw.js            Dibujos en SVG: poses de la pelota, disco de fenaquistiscopio, cuadros
 │       └── motion.js          Utilidades: prefersReducedMotion(), cssVar(), pad()
 └── components/
-    ├── ruler/                 Regla fija con timecode y rombos de navegación
-    ├── hero/                  Título por letras y dope sheet animado
-    ├── track-css/             V1 · CSS + Web Animations API
-    ├── track-tailwind/        V2 · Tailwind (sin JS: todo son clases)
-    ├── track-gsap/            V3 · GSAP + ScrollTrigger
-    ├── track-anime/           V4 · Anime.js
-    ├── track-three/           V5 · Three.js
-    ├── track-alpine/          V6 · Alpine.js
-    ├── footer/                Cierre y versiones de librerías
-    └── tai-button/            Botón "Solo para Tai" y telón de transición
+    ├── ruler/                 Barra fija: marca, enlaces, timecode a 24 fps y cabezal de color
+    ├── hero/                  Portada: ventana que se abre hasta los bordes sobre seis carriles animados (CSS)
+    ├── prologo/               Frase fija mientras pasan cuatro aparatos de antes del cine, hechos con código
+    ├── track-css/             CSS + Web Animations (incluye el disco de fenaquistiscopio con fps)
+    ├── track-tailwind/        Tailwind (sin JS: todo son clases)
+    ├── track-gsap/            GSAP + ScrollTrigger
+    ├── track-anime/           Anime.js
+    ├── track-three/           Three.js
+    ├── track-alpine/          Alpine.js
+    ├── criterio/              Tarjetas animadas que cruzan una hoja de contactos: cuándo uso cada herramienta
+    └── footer/                Cierre: cuenta regresiva en SVG, botón "Solo para Tai" y el nombre recortado
 tai.html                       Página del mensaje
 pages/tai/                     Estilos (tai.css) y animación (tai.js) de esa página
 ```
+
+## Sin imágenes
+
+La página no usa fotos ni videos. Todo lo que se ve en movimiento está dibujado con SVG,
+CSS o WebGL: la cronofotografía de la portada, los aparatos del prólogo, el disco de la
+pista CSS, las tarjetas de criterio y la cuenta regresiva del cierre. Los dibujos
+compartidos viven en `js/core/draw.js`.
 
 ## Cómo funciona el cargador
 
@@ -98,7 +117,8 @@ pages/tai/                     Estilos (tai.css) y animación (tai.js) de esa p�
   `root.querySelector('[data-ref="ball"]')`. Cambiar el diseño no rompe la lógica.
 - **Cada JS busca solo dentro de su `root`**, salvo la regla, que lee todas las
   `[data-track]` para crear sus rombos.
-- **Colores solo desde tokens.** Cada pista pone su clase `.tone-*` y usa `var(--c)`.
+- **Colores solo desde tokens.** Cada pista pone su clase `.tone-*`, que llena `--field`
+  (el campo de color); dentro de la pista, `--c` es la tinta de las figuras.
 - **Movimiento reducido.** Todo componente animado consulta `prefersReducedMotion()`
   o tiene su regla `@media (prefers-reduced-motion: reduce)`.
 
@@ -118,4 +138,5 @@ pages/tai/                     Estilos (tai.css) y animación (tai.js) de esa p�
    ```
 4. Agrega `<div data-component="mi-componente"></div>` en `index.html` donde deba aparecer.
 5. Si es una pista nueva, ponle `class="track tone-…"`, `data-track` y `data-title="…"`
-   en su `<section>` y la regla le creará un rombo automáticamente.
+   en su `<section>`: la barra mostrará su nombre y teñirá el cabezal con su color.
+   Para una sección que no es pista, usa `data-chapter` y `data-title="…"`.

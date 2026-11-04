@@ -6,7 +6,15 @@
 
 const COMPONENTS_DIR = new URL('../../components/', import.meta.url);
 
-const fileUrl = (name, ext) => new URL(`${name}/${name}.${ext}`, COMPONENTS_DIR);
+// La versión llega en la URL de este módulo (ver el importmap de index.html)
+// y se agrega a cada archivo de componente, para no usar copias viejas de la caché.
+const VERSION = new URL(import.meta.url).searchParams.get('v') || '';
+
+const fileUrl = (name, ext) => {
+  const url = new URL(`${name}/${name}.${ext}`, COMPONENTS_DIR);
+  if (VERSION) url.searchParams.set('v', VERSION);
+  return url;
+};
 
 function loadStyle(url) {
   return new Promise((resolve, reject) => {

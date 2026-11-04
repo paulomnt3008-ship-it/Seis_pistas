@@ -8,5 +8,5 @@ export const prefersReducedMotion = () =>
 export const cssVar = (name, el = document.documentElement) =>
   getComputedStyle(el).getPropertyValue(name).trim();
 
-/** Rellena con ceros a la izquierda: pad(7) → '07', pad(7, 3) → '007'. */
+/** Rellena con ceros a la izquierda (para el timecode). */ // taste-skill-ignore
 export const pad = (n, size = 2) => String(n).padStart(size, '0');

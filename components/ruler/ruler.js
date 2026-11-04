@@ -1,58 +1,60 @@
-import { prefersReducedMotion, pad } from '../../js/core/motion.js';
+import { pad, prefersReducedMotion } from '../../js/core/motion.js';
 
 const FPS = 24;
 const PX_PER_FRAME = 4;   // cada 4 px de scroll avanza un fotograma
-const HEADER_OFFSET = 64;
 
 /**
- * Regla fija: mueve el cabezal según el scroll, muestra el timecode
- * y crea un rombo por cada pista ([data-track]) que lleva a ella.
+ * Barra fija: un timecode que corre a 24 fps como un editor en reproducción
+ * (el scroll lo adelanta o lo regresa), el nombre de la pista que está en
+ * pantalla y un cabezal que se llena con su color.
  */
 export function init(root) {
-  const reduce = prefersReducedMotion();
   const timecode = root.querySelector('[data-ref="timecode"]');
-  const scale = root.querySelector('[data-ref="scale"]');
+  const trackLabel = root.querySelector('[data-ref="track"]');
   const playhead = root.querySelector('[data-ref="playhead"]');
-  const tracks = [...document.querySelectorAll('[data-track]')];
-
-  const markers = tracks.map((track) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'ruler__marker';
-    button.style.setProperty('--c', getComputedStyle(track).getPropertyValue('--c'));
-    button.setAttribute('aria-label', `Ir a ${track.dataset.title}`);
-    button.addEventListener('click', () =>
-      track.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
-    scale.appendChild(button);
-    return button;
-  });
+  // Pistas (tiñen el cabezal) y capítulos (solo ponen nombre)
+  const tracks = [...document.querySelectorAll('[data-track], [data-chapter]')];
 
   const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  const reduce = prefersReducedMotion();
+  const start = performance.now();
+  let ticking = false;
 
-  function layoutMarkers() {
-    const max = maxScroll();
-    tracks.forEach((track, i) => {
-      const p = Math.min(1, Math.max(0, (track.offsetTop - HEADER_OFFSET) / max));
-      markers[i].style.left = `${p * 100}%`;
-    });
-  }
-
-  function update() {
-    const progress = Math.min(1, scrollY / maxScroll());
-    playhead.style.left = `${progress * 100}%`;
-
-    const frame = Math.round(scrollY / PX_PER_FRAME);
+  /** Fotograma actual: tiempo de reproducción + lo recorrido con el scroll. */
+  function renderTimecode() {
+    const played = reduce ? 0 : Math.floor(((performance.now() - start) / 1000) * FPS);
+    const frame = played + Math.round(scrollY / PX_PER_FRAME);
     const seconds = Math.floor(frame / FPS);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
-    timecode.innerHTML = '<small>TC</small>' +
-      [pad(hours), pad(minutes % 60), pad(seconds % 60), pad(frame % FPS)].join(':');
+    timecode.textContent = [pad(hours), pad(minutes % 60), pad(seconds % 60), pad(frame % FPS)].join(':');
   }
 
-  addEventListener('scroll', update, { passive: true });
-  new ResizeObserver(() => { layoutMarkers(); update(); }).observe(document.body);
-  document.fonts?.ready.then(layoutMarkers);
+  function update() {
+    ticking = false;
+    const progress = Math.min(1, scrollY / maxScroll());
+    playhead.style.transform = `scaleX(${progress})`;
+    renderTimecode();
 
-  layoutMarkers();
+    // Pista activa: la que cruza la línea de 30 % de la pantalla
+    const line = innerHeight * .3;
+    const current = tracks.find((t) => {
+      const r = t.getBoundingClientRect();
+      return r.top <= line && r.bottom > line;
+    });
+    trackLabel.textContent = current ? current.dataset.title : 'Portada';
+    root.style.setProperty('--head', current?.hasAttribute('data-track') ? getComputedStyle(current).getPropertyValue('--field') : '');
+  }
+
+  addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  addEventListener('resize', update);
   update();
+
+  // El reloj corre solo, a 24 fps
+  if (!reduce) {
+    const tick = () => { renderTimecode(); requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  }
 }

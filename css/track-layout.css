@@ -1,120 +1,124 @@
 /* ==========================================================================
-   Esqueleto compartido de cada pista (V1–V6)
-   Cabecera a la izquierda, escenario + explicación a la derecha.
-   Cada pista define su color con una clase .tone-*, que llena --c.
+   Esqueleto compartido de cada pista
+   Cada pista es un "clip": un campo de color a pantalla completa. Su claqueta
+   (nombre, dato a la izquierda y a la derecha) queda fija arriba mientras el
+   clip pasa, como una fila de título que nunca se mueve.
+   Cada pista define su color con una clase .tone-*, que llena --field.
    ========================================================================== */
 
 .track {
+  /* Dentro del campo de color la tinta es oscura */
+  --ink: #1c1c1c;
+  --muted: #1c1c1c;
+  --btn-ink: #1c1c1c;
+  --c: #1c1c1c;                                         /* color de las figuras de las demos */
+  --stage: color-mix(in srgb, var(--field) 84%, #000);   /* un paso de tono para el escenario */
+  --stage-2: color-mix(in srgb, var(--field) 72%, #000);
+
+  position: relative;
+  min-height: 100svh;
+  background: var(--field);
+  color: var(--ink);
+  scroll-margin-top: var(--nav-h);
+  padding-bottom: clamp(72px, 9vw, 128px);
+}
+
+/* --- Claqueta fija --- */
+.track__slate {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 5;
   display: grid;
-  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-  gap: 32px;
-  border-top: 1px solid var(--line);
-  padding-block: 44px;
-  scroll-margin-top: 64px;
-}
-
-/* --- Cabecera --- */
-.track__head { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-
-.track__id {
-  display: flex;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 10px;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  letter-spacing: .12em;
-  color: var(--c);
+  gap: 24px;
+  min-height: 84px;
+  background: var(--field);
 }
-.track__id::before {
-  content: "";
-  width: 12px;
-  height: 12px;
-  background: var(--c);
-  border-radius: 2px;
-}
-
 .track__title {
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
-  line-height: .95;
-  text-transform: uppercase;
+  font-size: var(--step-lead);
+  white-space: nowrap;
 }
-.track__title small {
-  display: block;
-  margin-top: 8px;
-  font-family: var(--f-mono);
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--mute);
-  letter-spacing: .06em;
-  text-transform: none;
+.track__fact { font-size: var(--step-small); font-weight: 500; }
+.track__fact--end { text-align: right; }
+
+/* --- Cuerpo: texto, escenario y código --- */
+.track__body {
+  row-gap: 32px;
+  padding-top: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.track__text {
+  grid-column: 1 / span 5;
+  grid-row: 1 / span 2;
+  display: grid;
+  gap: 20px;
+  /* El texto acompaña al escenario mientras se recorre la pista */
+  position: sticky;
+  top: calc(var(--nav-h) + 84px + 24px);
+}
+.track__stage { grid-column: 6 / -1; grid-row: 1; }
+.track__code { grid-column: 6 / -1; grid-row: 2; }
+
+.track__lede { font-size: var(--step-lead); line-height: 1.3; font-weight: 500; max-width: 24ch; }
+.track__how { font: 500 var(--step-body)/1.4 var(--f-text); margin-top: 12px; }
+.track__text p:not(.track__lede) { max-width: 46ch; }
+.track__text code,
+.track__tags code {
+  padding: .1em .35em;
+  background: color-mix(in srgb, #000 10%, transparent);
 }
 
-.track__lede { color: var(--mute); font-size: .95rem; max-width: 42ch; }
-.track__lede strong { color: var(--ink); font-weight: 500; }
+.track__tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 8px 0 0; list-style: none; }
+.track__tags code { display: inline-block; padding: 6px 10px; font-size: var(--step-small); }
 
-.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; }
-.chips li {
-  list-style: none;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  padding: 3px 8px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-}
-
-/* --- Cuerpo: escenario y explicación --- */
-.track__body { display: grid; gap: 16px; min-width: 0; }
-
+/* El escenario: un paso de tono más oscuro que el campo, sin bordes */
 .stage {
   position: relative;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  min-height: 300px;
+  min-height: clamp(360px, 34vw, 480px);
+  background: var(--stage);
   overflow: hidden;
 }
 .stage__label {
   position: absolute;
-  top: 10px;
-  left: 12px;
+  top: 16px;
+  left: 20px;
   z-index: 2;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  color: var(--mute);
-  letter-spacing: .08em;
+  font-size: var(--step-small);
+  font-weight: 500;
   pointer-events: none;
 }
-
-.how { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; }
-.how__title {
-  margin-bottom: 8px;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--c);
-}
-.how__text { font-size: .95rem; max-width: 60ch; }
 
 /* --- Bloque de código --- */
 .code {
   margin: 0;
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 14px 16px;
+  padding: 22px 24px;
   overflow-x: auto;
-  font: 12.5px/1.6 var(--f-mono);
-  color: var(--ink);
+  background: #1c1c1c;
+  color: #f1f1ef;
+  font: 14px/1.65 var(--f-code);
+  tab-size: 2;
 }
-.code .tok-com { color: var(--mute); }
-.code .tok-key { color: var(--c); }
-.code .tok-str { color: var(--code-string); }
+.code .tok-com { color: #a9aaa5; }
+.code .tok-key { color: var(--field); }
+.code .tok-str { color: #e8c99a; }
 
-@media (max-width: 860px) {
-  .track { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .how { grid-template-columns: minmax(0, 1fr); }
+/* En pantallas bajas el texto no cabe fijo: vuelve al flujo normal */
+@media (max-height: 820px) {
+  .track__text { position: static; }
+}
+
+@media (max-width: 900px) {
+  .track__text { position: static; }
+  .track__slate { grid-template-columns: minmax(0, 1fr) auto; min-height: 72px; }
+  .track__slate .track__fact:first-child { display: none; }
+  .track__text,
+  .track__stage,
+  .track__code { grid-column: 1 / -1; grid-row: auto; }
+  .track__stage { order: -1; }
+}
+@media (max-width: 520px) {
+  .track__slate { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .track__fact--end { display: none; }
+  .track__title { white-space: normal; }
 }

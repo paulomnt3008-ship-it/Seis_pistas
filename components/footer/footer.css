@@ -1,40 +1,134 @@
-/* Cierre: criterio de elección y versiones de las librerías */
+/* Cierre: campo invertido, invitación a la escena post-créditos,
+   créditos y el nombre recortado por el borde inferior. */
 
 .closing {
+  --ink: #1c1c1c;
+  --muted: #1c1c1c;
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: clamp(96px, 10vw, 160px);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.closing__top { row-gap: 40px; align-items: start; }
+
+.closing__invite { grid-column: 1 / span 6; display: grid; gap: 24px; justify-items: start; }
+.closing__title { font-size: var(--step-head); max-width: 12ch; }
+.closing__lead { font-size: var(--step-lead); line-height: 1.35; max-width: 26ch; }
+
+.closing__btn {
+  min-height: 56px;
+  padding: 16px 26px;
+  font-size: var(--step-body);
+  background: #1c1c1c;
+  color: var(--paper);
+}
+.closing__btn:hover { background: #3a1426; }
+.closing__heart {
+  width: 20px;
+  height: 18px;
+  fill: var(--love);
+  animation: closing-beat 1.6s ease-in-out infinite;
+}
+@keyframes closing-beat {
+  0%, 40%, 100% { transform: scale(1); }
+  14%           { transform: scale(1.25); }
+  28%           { transform: scale(1.08); }
+}
+
+.closing__film { grid-column: 8 / span 3; margin: 0; display: grid; gap: 10px; }
+.closing__leader { width: 100%; aspect-ratio: 4 / 3; background: #1c1c1c; }
+.closing__leader svg { display: block; width: 100%; height: 100%; }
+.leader__num { font: 800 120px var(--f-display); fill: #f1f1ef; }
+.closing__mark .char { display: inline-block; }
+.closing__film figcaption { font-size: var(--step-small); }
+
+.closing__links {
+  grid-column: 11 / -1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 32px;
-  padding-block: 40px 0;
-  border-top: 1px solid var(--line);
+  gap: 12px;
+  justify-items: start;
+  font-size: var(--step-body);
+  font-weight: 500;
 }
-
-.closing__title {
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: .95;
-  text-transform: uppercase;
-}
-.closing__text { margin-top: 14px; max-width: 56ch; color: var(--mute); }
-
-.closing__libs {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--f-mono);
-  font-size: 12px;
-}
-.closing__libs td { padding: 7px 0; border-bottom: 1px solid var(--line); }
-.closing__libs td:last-child { text-align: right; color: var(--mute); }
-.closing__libs td:first-child::before {
+.closing__links a { position: relative; text-decoration: none; padding-bottom: 4px; }
+.closing__links a::after {
   content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 10px;
-  background: var(--c);
-  border-radius: 1px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s var(--ease-out);
+}
+.closing__links a:hover::after,
+.closing__links a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+.closing__credits {
+  display: grid;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 96px;
+  max-width: 64ch;
+  font-size: var(--step-small);
+}
+.closing__credits a { text-underline-offset: 2px; }
+
+/* El nombre llena el pie y el borde lo corta */
+.closing__mark {
+  margin: 24px 0 0;
+  font-size: 13vw;
+  line-height: .9;
+  white-space: nowrap;
+  transform: translateY(26%);
 }
 
-@media (max-width: 860px) {
-  .closing { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 900px) {
+  .closing__invite { grid-column: 1 / -1; }
+  .closing__film { grid-column: 1 / span 7; }
+  .closing__links { grid-column: 8 / -1; }
+}
+@media (max-width: 560px) {
+  .closing__title { font-size: 9.4vw; }
+  .closing__btn { width: 100%; justify-content: center; }
+  .closing__film,
+  .closing__links { grid-column: 1 / -1; }
+  .closing__links { grid-auto-flow: column; justify-content: start; gap: 20px; font-size: var(--step-small); }
+}
+
+/* Telón circular que cubre la página antes de cambiar a tai.html */
+.love-iris {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--love-night);
+  pointer-events: none;
+}
+.love-iris svg {
+  width: 84px;
+  fill: none;
+  stroke: var(--love);
+  stroke-width: 2.5;
+  opacity: 0;
+}
+.love-spark {
+  position: fixed;
+  z-index: 101;
+  width: 14px;
+  height: 13px;
+  fill: var(--love);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .closing__heart { animation: none; }
 }

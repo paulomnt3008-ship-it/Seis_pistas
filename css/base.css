@@ -6,38 +6,54 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--ground);
+  background: var(--bg);
   color: var(--ink);
-  font: 16px/1.6 var(--f-body);
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 0 64px;
-  overflow-x: hidden;
+  font: 400 var(--step-body)/1.55 var(--f-text);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
 }
-
-/* Franja superior en teléfonos con notch */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0 0 auto;
-  height: env(safe-area-inset-top, 0px);
-  z-index: 10;
-  background: var(--ground);
-}
-
-.wrap { max-width: 1180px; margin: 0 auto; }
 
 a { color: inherit; }
-h1, h2, h3 { margin: 0; text-wrap: balance; }
-p { margin: 0; }
-img { max-width: 100%; }
+h1, h2, h3 { margin: 0; font-weight: 800; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+img, video { display: block; max-width: 100%; }
+button, input { font: inherit; color: inherit; }
 
-:focus-visible { outline: 2px solid var(--playhead); outline-offset: 3px; }
+code, pre { font-family: var(--f-code); }
+code { font-size: .9em; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* Contenedor con los márgenes de la página */
+.frame { padding-inline: max(var(--margin), env(safe-area-inset-left, 0px)) max(var(--margin), env(safe-area-inset-right, 0px)); }
+
+/* Rejilla de 12 columnas */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(16px, 2vw, 32px);
+}
+
+.display {
+  font-family: var(--f-display);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Entradas: el contenido solo se oculta cuando el script ya está listo */
+.js-motion [data-reveal] { opacity: 0; transform: translateY(24px); }
+
+/* Piezas que crea scroll-fx.js al partir textos y código */
+.fx-char, .fx-word { display: inline-block; }
+.fx-line { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  .js-motion [data-reveal] { opacity: 1; transform: none; }
 }

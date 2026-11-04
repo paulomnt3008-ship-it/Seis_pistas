@@ -1,58 +1,69 @@
-/* V6 · Alpine.js: lista de tareas y panel plegable */
+/* Pista Alpine.js: lista de tareas y panel plegable */
 
 .tasks {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 20px;
-  padding: 44px 20px 20px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 60px 20px 24px;
 }
 
 /* Oculta el marcado de Alpine hasta que se inicializa */
 [x-cloak] { display: none !important; }
 
 .tasks__form { display: flex; gap: 8px; }
+/* Campo de formulario: puede llevar línea */
 .tasks__input {
   flex: 1;
   min-width: 0;
-  padding: 8px 10px;
-  font: 14px var(--f-body);
-  color: var(--ink);
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: 4px;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: var(--step-small);
+  color: #1c1c1c;
+  background: color-mix(in srgb, #fff 55%, var(--field));
+  border: 0;
+  border-bottom: 2px solid #1c1c1c;
+  border-radius: 0;
 }
+.tasks__input::placeholder { color: #3a3a3a; }
+.tasks__add { background: #1c1c1c; color: var(--field); }
+.tasks__add:hover { background: #333; }
 
-.tasks__list { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.tasks__list { display: grid; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; }
 .tasks__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  font-size: 14px;
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: 4px;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 8px 8px 14px;
+  font-size: var(--step-small);
+  font-weight: 500;
+  background: var(--stage-2);
 }
 .tasks__remove {
+  min-height: 36px;
+  padding: 4px 10px;
   background: none;
   border: 0;
-  color: var(--mute);
   cursor: pointer;
-  font: 12px var(--f-mono);
+  font-size: var(--step-small);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.tasks__remove:hover { color: var(--c); }
+.tasks__remove:hover { background: #1c1c1c; color: var(--field); text-decoration: none; }
 
-.tasks__count { font-family: var(--f-mono); font-size: 12px; color: var(--mute); }
-.tasks__toggle { margin-top: 12px; }
+.tasks__side { display: grid; align-content: start; justify-items: start; gap: 14px; }
+.tasks__count { font-size: var(--step-small); font-weight: 500; }
+.tasks__num { font: 800 var(--step-lead)/1 var(--f-display); margin-right: 6px; }
 .tasks__panel {
-  margin-top: 12px;
-  padding: 14px;
-  font-size: 14px;
-  border: 1px solid var(--c);
-  border-radius: 4px;
+  padding: 16px;
+  font-size: var(--step-small);
+  background: #1c1c1c;
+  color: #f1f1ef;
+  transform-origin: top left;
 }
+.tasks__panel code { color: var(--field); }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .tasks { grid-template-columns: minmax(0, 1fr); }
 }

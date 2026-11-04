@@ -1,16 +1,33 @@
-<footer class="closing">
-  <div>
-    <h2 class="closing__title">Criterio antes que efecto</h2>
-    <p class="closing__text">Elijo la herramienta según el problema: CSS para lo simple, Tailwind para estados de componentes, GSAP para secuencias, Anime.js para patrones, Three.js para 3D y Alpine cuando la animación depende de datos. Todas las demos respetan <code>prefers-reduced-motion</code> y se pueden recorrer con teclado.</p>
+<footer class="closing frame" id="creditos" aria-labelledby="closing-title" data-chapter data-title="Créditos">
+  <div class="closing__top grid12">
+    <div class="closing__invite">
+      <h2 class="closing__title display" id="closing-title">Queda una escena más</h2>
+      <p class="closing__lead">Como en el cine, lo último llega después de los créditos.</p>
+      <a class="btn closing__btn" href="tai.html" data-ref="taiButton">
+        <svg class="closing__heart" viewBox="0 0 100 90" aria-hidden="true">
+          <path d="M50 86 C20 64 2 46 2 28 C2 12 14 2 28 2 C38 2 46 8 50 16 C54 8 62 2 72 2 C86 2 98 12 98 28 C98 46 80 64 50 86 Z"/>
+        </svg>
+        Solo para Tai
+      </a>
+    </div>
+
+    <figure class="closing__film">
+      <!-- Cuenta regresiva de película, dibujada en SVG (footer.js) -->
+      <div class="closing__leader" data-ref="leader" role="img" aria-label="Cuenta regresiva de película dibujada con código, del 8 al 2"></div>
+      <figcaption>Cuenta regresiva de película, hecha con SVG y Web Animations</figcaption>
+    </figure>
+
+    <nav class="closing__links" aria-label="Volver a las secciones">
+      <a href="#pistas">Las seis pistas</a>
+      <a href="#criterio">Criterio</a>
+      <a href="#inicio">Volver al inicio</a>
+    </nav>
   </div>
-  <table class="closing__libs" aria-label="Librerías cargadas en esta página">
-    <tbody>
-      <tr class="tone-css">    <td>CSS + Web Animations API</td> <td>nativo</td></tr>
-      <tr class="tone-tw">     <td>Tailwind CSS</td>             <td>3.4.17</td></tr>
-      <tr class="tone-gsap">   <td>GSAP + ScrollTrigger</td>     <td>3.12.5</td></tr>
-      <tr class="tone-anime">  <td>Anime.js</td>                 <td>3.2.2</td></tr>
-      <tr class="tone-three">  <td>Three.js</td>                 <td>r128</td></tr>
-      <tr class="tone-alpine"> <td>Alpine.js</td>                <td>3.14.1</td></tr>
-    </tbody>
-  </table>
+
+  <div class="closing__credits">
+    <p><strong>Librerías:</strong> CSS y Web Animations API (nativo) · Tailwind CSS 3.4.17 · GSAP y ScrollTrigger 3.12.5 · Anime.js 3.2.2 · Three.js r128 · Alpine.js 3.14.1. Todas las demos respetan <code>prefers-reduced-motion</code> y se recorren con teclado.</p>
+    <p>Sin fotos ni videos: cada imagen en movimiento de esta página está dibujada con SVG, CSS o WebGL.</p>
+  </div>
+
+  <p class="closing__mark display" aria-hidden="true" data-ref="mark">Seis pistas</p>
 </footer>

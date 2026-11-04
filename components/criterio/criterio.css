@@ -1,0 +1,151 @@
+/* Criterio: una fotografía fija y oscurecida; las tarjetas la cruzan de derecha
+   a izquierda con el scroll (criterio.js mueve la pista). */
+
+.criterio {
+  position: relative;
+  height: 300svh;
+  margin-top: 0;
+}
+
+.criterio__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+}
+
+.criterio__ground {
+  position: absolute;
+  inset: -6% -20% -6% -6%;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 12px;
+  align-content: center;
+  opacity: .22;
+  will-change: transform;
+}
+.criterio__ground svg { display: block; width: 100%; height: auto; }
+
+.criterio__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  width: max-content;
+  padding-inline: var(--margin);
+  padding-top: calc(var(--nav-h) / 2);
+  will-change: transform;
+}
+
+.criterio__intro {
+  width: min(46vw, 660px);
+  display: grid;
+  gap: 24px;
+  color: var(--ink);
+}
+.criterio__title { font-size: var(--step-head); }
+.criterio__lead { font-size: var(--step-lead); line-height: 1.35; max-width: 26ch; }
+
+.card {
+  transform-origin: 0 100%;
+  width: min(720px, 52vw);
+  height: min(560px, 66svh);
+  display: grid;
+  grid-template-rows: 68fr 32fr;
+  background: var(--field);
+  color: #1c1c1c;
+}
+.card__art {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--field) 80%, #000);
+  display: grid;
+  place-items: center;
+  place-content: center;
+  --ink: #1c1c1c;
+}
+.card__art i { display: block; background: var(--ink); }
+
+/* CSS: cinco pelotas, cinco curvas */
+.art-easing { grid-template-rows: repeat(5, 1fr); place-items: stretch; place-content: stretch; padding: 24px 32px; }
+.art-easing i {
+  width: 30px; height: 30px; border-radius: 50%; align-self: center;
+  animation: art-slide 2.2s var(--e) infinite alternate;
+}
+@keyframes art-slide { to { transform: translateX(calc(min(720px, 52vw) - 64px - 30px)); } }
+
+/* Tailwind: cuadros que crecen como estados de hover */
+.art-grid { grid-template-columns: repeat(3, 64px); gap: 18px; }
+.art-grid i { width: 64px; height: 64px; animation: art-pop 1.8s var(--ease-spring) infinite; animation-delay: calc(var(--i) * 120ms); }
+@keyframes art-pop { 0%, 60%, 100% { transform: scale(.55); } 25% { transform: scale(1) rotate(12deg); } }
+
+/* GSAP: barras en cascada */
+.art-bars { grid-auto-flow: column; gap: 14px; align-items: end; align-content: stretch; padding: 32px 0; }
+.art-bars i { width: 28px; height: 70%; transform-origin: 50% 100%; animation: art-bar 1.6s cubic-bezier(.34,1.56,.64,1) infinite alternate; animation-delay: calc(var(--i) * 70ms); }
+@keyframes art-bar { from { transform: scaleY(.08); } to { transform: scaleY(1); } }
+
+/* Anime.js: onda en una rejilla (los puntos los crea criterio.js) */
+.art-wave { grid-template-columns: repeat(12, 22px); gap: 6px; }
+.art-wave i { width: 12px; height: 12px; border-radius: 50%; justify-self: center; animation: art-dot 1.6s ease-in-out infinite; animation-delay: calc(var(--d) * 90ms); }
+@keyframes art-dot { 0%, 100% { transform: scale(.4); } 50% { transform: scale(1.4) translateY(-6px); } }
+
+/* Three.js: un cubo en CSS 3D */
+.art-cube { perspective: 700px; }
+.cube { position: relative; width: 120px; height: 120px; transform-style: preserve-3d; animation: art-cube 8s linear infinite; }
+.cube i { position: absolute; inset: 0; opacity: .88; }
+.cube .f1 { transform: translateZ(60px); background: #1c1c1c; }
+.cube .f2 { transform: rotateY(180deg) translateZ(60px); background: #2e2e2e; }
+.cube .f3 { transform: rotateY(90deg) translateZ(60px); background: #444; }
+.cube .f4 { transform: rotateY(-90deg) translateZ(60px); background: #3a3a3a; }
+.cube .f5 { transform: rotateX(90deg) translateZ(60px); background: #555; }
+.cube .f6 { transform: rotateX(-90deg) translateZ(60px); background: #262626; }
+@keyframes art-cube { from { transform: rotateX(-24deg) rotateY(0); } to { transform: rotateX(-24deg) rotateY(360deg); } }
+
+/* Alpine: filas que entran y salen según el estado */
+.art-list { gap: 12px; padding-inline: 40px; place-items: center stretch; place-content: center stretch; }
+.art-list i { height: 34px; animation: art-row 4s var(--ease-out) infinite; animation-delay: calc(var(--i) * 250ms); transform-origin: left; }
+@keyframes art-row {
+  0%       { transform: translateX(-30px) scaleX(.2); opacity: 0; }
+  15%, 70% { transform: none; opacity: 1; }
+  85%, 100% { transform: translateX(40px); opacity: 0; }
+}
+.card__panel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: 24px;
+  padding: 24px 28px;
+}
+.card__name { font-size: var(--step-lead); }
+.card__text { justify-self: end; max-width: 30ch; text-align: right; font-size: var(--step-small); font-weight: 500; }
+
+/* Teléfono: sin fijar ni desplazar; foto, título y tarjetas en columna */
+@media (max-width: 1100px) {
+  .criterio { height: auto; padding-top: var(--gap-section); }
+  .criterio__stage { position: static; height: auto; display: block; overflow: visible; }
+  .criterio__ground { display: none; }
+  .criterio__track { width: auto; flex-direction: column; align-items: stretch; gap: 24px; padding-top: 0; transform: none !important; }
+  .criterio__intro { width: auto; order: -1; margin-bottom: 16px; }
+  .criterio__stage { display: flex; flex-direction: column; }
+  .criterio__track { order: 2; }
+  .card { width: auto; height: auto; grid-template-rows: auto auto; }
+  .card__art { height: 260px; }
+  @keyframes art-slide { to { transform: translateX(calc(100vw - 2 * var(--margin) - 64px - 30px)); } }
+  .card__panel { grid-template-columns: minmax(0, 1fr); gap: 10px; min-height: 140px; align-content: end; }
+  .card__text { justify-self: start; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 1101px) {
+  /* Sin desplazamiento: las tarjetas se recorren con scroll horizontal */
+  .criterio { height: auto; }
+  .criterio__stage { position: relative; }
+  .criterio__track { width: auto; overflow-x: auto; }
+  .card, .criterio__intro { flex: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__art i, .cube { animation: none; }
+}
